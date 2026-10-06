@@ -29,3 +29,8 @@ De generator vult 8 slots: tikspel, bewegen, station A–D (dribbelen, schieten,
 - Delen gaat via een tekstcode (`id` × 8 met punten ertussen) in een WhatsApp-tekst. Een Artifact-link geeft geen `#key=value` of querystring door, dus geen state in de URL.
 - `localStorage` (sleutels `kv.*`) alleen voor gemak per toestel: huidige training, favorieten, bewaarde trainingen. Altijd in try/catch.
 - `window.print()` werkt niet binnen een Artifact; de printknop verschijnt alleen als de pagina niet in een frame draait.
+
+## Publiceren
+- Openbaar op GitHub Pages: https://dartoum.github.io/kabouterveld/ (repo https://github.com/dartoum/kabouterveld, openbaar, Pages vanaf `main` map `/`). Pages serveert `index.html` rechtstreeks; een push naar `main` is een update. Alleen pushen na expliciete vraag van de eigenaar.
+- Daarnaast een privé Claude Artifact (https://claude.ai/artifact/UeoGJUnfBaonpECzCtiPVF), bijgewerkt met `./make-artifact.sh` en publiceren van `dist/artifact.html` naar die URL. De twee kunnen uit de pas lopen: werk na een wijziging zo nodig beide bij.
+- `localStorage` (favorieten, bewaarde trainingen) hoort per domein: op de Pages-site is het dus apart van het Artifact.
