@@ -1,0 +1,1515 @@
+<title>Kabouterveld</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: één kolom tijdlijn op de telefoon (tijd | kaart), stations 2 breed vanaf 640px. Schetsen zijn mini-veldjes met maaistroken. */
+:root {
+  --bg: #EEF2E9;
+  --surface: #FFFFFF;
+  --surface-2: #E2E9DB;
+  --fg: #142019;
+  --muted: #4F5F55;
+  --line: #CCD7C5;
+  --primary: #1B6536;
+  --on-primary: #FFFFFF;
+  --cone: #E05A17;
+  --cone-y: #F2C21B;
+  --cone-b: #2F6FD6;
+  --cone-r: #D23A3A;
+  --vest: #D6EF2F;
+  --kid-b: #3A73D8;
+  --parent: #121820;
+  --field: #3D8A4E;
+  --field-mow: #46955A;
+  --chalk: #FFFFFF;
+  --net: rgba(255, 255, 255, .28);
+  --water: #5BA6D4;
+  --ink-on-field: #0E1A12;
+  --focus: #E05A17;
+  --shadow: 0 1px 2px rgba(20, 32, 25, .06), 0 6px 18px rgba(20, 32, 25, .06);
+  /* Timer: altijd het avondveld, bewust één look */
+  --t-bg: #0E1A12;
+  --t-surface: #17271C;
+  --t-fg: #F1F6EE;
+  --t-muted: #9FB4A5;
+  --t-accent: #D6EF2F;
+  --t-warn: #FF8A3D;
+  --font-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1410;
+    --surface: #152019;
+    --surface-2: #1D2B22;
+    --fg: #E6EFE3;
+    --muted: #9EB1A3;
+    --line: #2A3A30;
+    --primary: #6DCB88;
+    --on-primary: #0A1A0F;
+    --field: #2B6339;
+    --field-mow: #316C40;
+    --focus: #FF8A3D;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 18px rgba(0, 0, 0, .25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1410;
+  --surface: #152019;
+  --surface-2: #1D2B22;
+  --fg: #E6EFE3;
+  --muted: #9EB1A3;
+  --line: #2A3A30;
+  --primary: #6DCB88;
+  --on-primary: #0A1A0F;
+  --field: #2B6339;
+  --field-mow: #316C40;
+  --focus: #FF8A3D;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 6px 18px rgba(0, 0, 0, .25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.1; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+.wrap { max-width: 1080px; margin-inline: auto; padding-inline: 16px; }
+.eyebrow {
+  font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.num { font-family: var(--font-display); font-variant-numeric: tabular-nums; }
+
+/* Header */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.top-in { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 10px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 900; font-stretch: 112%; font-size: 20px; letter-spacing: -.01em; }
+.brand svg { width: 22px; height: 22px; flex: none; }
+.tabs { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: 999px; }
+.tab {
+  border: 0; background: transparent; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+  font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--muted); min-height: 38px;
+}
+.tab[aria-selected="true"] { background: var(--surface); color: var(--fg); box-shadow: var(--shadow); }
+@media (max-width: 520px) {
+  .tabs { width: 100%; }
+  .tab { flex: 1; padding-inline: 6px; }
+}
+
+main { padding-block: 24px 64px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 10px 16px; border-radius: 12px; cursor: pointer;
+  border: 1.5px solid var(--line); background: var(--surface); color: var(--fg);
+  font-family: var(--font-display); font-weight: 700; font-size: 15px; text-decoration: none;
+}
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn svg, .mini svg, .icon-btn svg { width: 18px; height: 18px; flex: none; }
+.icon-btn {
+  display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; flex: none;
+  border: 1.5px solid var(--line); background: var(--surface); cursor: pointer;
+}
+.mini {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 6px 10px;
+  border: 0; border-radius: 10px; background: var(--surface-2); cursor: pointer;
+  font-family: var(--font-display); font-weight: 600; font-size: 13.5px; color: var(--fg);
+}
+.mini:hover { filter: brightness(.97); }
+.mini[aria-pressed="true"] { background: var(--fg); color: var(--bg); }
+.mini:disabled { opacity: .45; cursor: not-allowed; }
+
+/* Intro */
+.intro { display: grid; gap: 16px; margin-bottom: 28px; }
+.intro h1 { font-size: clamp(30px, 7vw, 46px); font-weight: 900; font-stretch: 108%; letter-spacing: -.02em; margin-top: 4px; }
+.lede { color: var(--muted); max-width: 58ch; margin-top: 8px; }
+.intro-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.start-field {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 4px 6px 4px 14px;
+  border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface);
+  font-family: var(--font-display); font-weight: 700; font-size: 15px;
+}
+.start-field input {
+  font: inherit; font-variant-numeric: tabular-nums; border: 0; background: var(--surface-2); color: var(--fg);
+  border-radius: 8px; padding: 6px 8px; min-height: 36px;
+}
+@media (min-width: 860px) {
+  .intro { grid-template-columns: 1fr auto; align-items: end; }
+}
+
+/* Tijdlijn */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.tl { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 12px; position: relative; padding-bottom: 22px; }
+.tl::before { content: ""; position: absolute; left: 27px; top: 30px; bottom: 0; width: 2px; background: var(--line); }
+.tl:last-child::before { display: none; }
+.tl-time { font-family: var(--font-display); font-variant-numeric: tabular-nums; font-weight: 800; font-size: 17px; padding-top: 2px; }
+.tl-time small { display: block; font-size: 12px; font-weight: 600; color: var(--muted); }
+.tl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 10px; }
+.tl-head h2 { font-size: 20px; font-weight: 800; }
+.tl-head .meta { color: var(--muted); font-size: 14px; }
+.note { color: var(--muted); font-size: 15px; max-width: 62ch; }
+.plain-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; }
+
+/* Slot-kaart */
+.slot { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.slot.locked { border-color: var(--fg); }
+.slot-main {
+  display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 14px; align-items: center; width: 100%; min-width: 0;
+  text-align: left; background: none; border: 0; padding: 12px; cursor: pointer; border-radius: var(--r) var(--r) 0 0;
+}
+.slot-main:hover .slot-name { text-decoration: underline; text-underline-offset: 3px; }
+.slot-sketch svg { display: block; width: 100%; height: auto; }
+.slot-text { display: grid; gap: 3px; min-width: 0; }
+.slot-label { font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.slot-name { font-family: var(--font-display); font-weight: 800; font-size: 19px; line-height: 1.15; }
+.slot-story { color: var(--muted); font-size: 14.5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.slot-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 0 12px 12px; }
+.slot-actions .mini { min-width: 0; }
+@media (max-width: 520px) {
+  .slot-main { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; }
+  .slot-actions .mini { flex-direction: column; gap: 2px; padding: 6px 4px; font-size: 12.5px; min-height: 50px; }
+  .tl { grid-template-columns: 46px minmax(0, 1fr); gap: 8px; }
+  .tl::before { left: 22px; }
+  .tl-time { font-size: 15px; }
+}
+.stations { display: grid; gap: 12px; }
+@media (min-width: 640px) { .stations { grid-template-columns: 1fr 1fr; } }
+
+/* Carrousel-tabel */
+.rot-wrap { overflow-x: auto; margin-top: 14px; }
+.rot { border-collapse: separate; border-spacing: 3px; font-family: var(--font-display); width: 100%; }
+.rot th, .rot td { padding: 6px 4px; text-align: center; border-radius: 8px; font-variant-numeric: tabular-nums; }
+.rot thead th { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.rot thead th small { display: block; font-weight: 600; }
+.rot tbody th { text-align: left; font-size: 14px; font-weight: 700; white-space: nowrap; }
+.rot td { background: var(--surface-2); font-weight: 800; font-size: 16px; }
+.rot td.l0 { background: color-mix(in srgb, var(--vest) 55%, var(--surface)); color: #1A2406; }
+.rot td.l1 { background: color-mix(in srgb, var(--cone) 30%, var(--surface)); }
+.rot td.l2 { background: color-mix(in srgb, var(--kid-b) 28%, var(--surface)); }
+.rot td.l3 { background: color-mix(in srgb, var(--primary) 26%, var(--surface)); }
+
+.share-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; padding-top: 22px; border-top: 1px solid var(--line); }
+
+/* Schets */
+.sk { display: block; width: 100%; height: auto; max-width: 100%; }
+.sk-field { fill: var(--field); }
+.sk-mow { fill: var(--field-mow); }
+.sk-zone { fill: rgba(255, 255, 255, .07); stroke: var(--chalk); stroke-width: 1; stroke-dasharray: 4 3; opacity: .85; }
+.sk-water { fill: var(--water); opacity: .55; }
+.sk-line { stroke: var(--chalk); stroke-width: 1.4; opacity: .9; }
+.sk-cone { fill: var(--cone); stroke: var(--ink-on-field); stroke-width: .5; }
+.sk-cone.y { fill: var(--cone-y); }
+.sk-cone.b { fill: var(--cone-b); }
+.sk-cone.r { fill: var(--cone-r); }
+.sk-goal { fill: var(--net); stroke: var(--chalk); stroke-width: 1.1; }
+.sk-post { stroke: var(--chalk); stroke-width: 2.2; stroke-linecap: round; }
+.sk-kid { stroke: var(--ink-on-field); stroke-width: 1; fill: var(--vest); }
+.sk-kid.t1 { fill: var(--kid-b); stroke: var(--chalk); }
+.sk-parent { fill: var(--parent); stroke: var(--chalk); stroke-width: 1.4; }
+.sk-ball { fill: #FFFFFF; stroke: var(--ink-on-field); stroke-width: .8; }
+.sk-run { fill: none; stroke: var(--chalk); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#kv-arrow); }
+.sk-pass { fill: none; stroke: var(--chalk); stroke-width: 1.3; stroke-dasharray: 3 2.5; stroke-linecap: round; marker-end: url(#kv-arrow); }
+.sk-arrowhead { fill: var(--chalk); }
+.sk-txt { fill: var(--chalk); font-family: var(--font-display); font-size: 7.5px; font-weight: 700; text-anchor: middle; letter-spacing: .02em; }
+.sk-txt.l { text-anchor: start; font-size: 6.5px; text-transform: uppercase; letter-spacing: .08em; opacity: .9; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend svg { width: 18px; height: 12px; }
+
+/* Catalogus */
+.cat-head { display: grid; gap: 12px; margin-bottom: 18px; }
+.cat-head h1 { font-size: clamp(28px, 6vw, 40px); font-weight: 900; font-stretch: 108%; letter-spacing: -.02em; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  min-height: 40px; padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface);
+  font-family: var(--font-display); font-weight: 700; font-size: 14px; cursor: pointer;
+}
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chip .n { font-variant-numeric: tabular-nums; opacity: .65; margin-left: 4px; font-weight: 600; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.card-open { display: grid; grid-template-rows: auto 1fr; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; }
+.card-open svg.sk { border-radius: 0; }
+.card-body { padding: 12px 14px 14px; display: grid; gap: 6px; align-content: start; }
+.card-top { display: flex; justify-content: space-between; align-items: start; gap: 8px; }
+.card h3 { font-size: 18px; font-weight: 800; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12.5px; padding: 2px 8px; border-radius: 6px; background: var(--surface-2); color: var(--muted); font-family: var(--font-display); font-weight: 600; }
+.card .story-line { color: var(--muted); font-size: 14px; line-height: 1.4; }
+.card-wrap { position: relative; }
+.fav-btn {
+  position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; border-radius: 999px; border: 0; cursor: pointer;
+  display: grid; place-items: center; background: rgba(14, 26, 18, .55); color: #FFFFFF;
+}
+.fav-btn svg { width: 20px; height: 20px; }
+.fav-btn[aria-pressed="true"] { color: #FF6B6B; background: rgba(255, 255, 255, .92); }
+.empty { padding: 28px; border: 1.5px dashed var(--line); border-radius: var(--r); color: var(--muted); text-align: center; }
+
+/* Bewaard */
+.saved-grid { display: grid; gap: 22px; }
+@media (min-width: 860px) { .saved-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 360px); align-items: start; } }
+.saved-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.saved-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 10px; }
+.saved-item h3 { font-size: 17px; font-weight: 800; }
+.saved-item .games { color: var(--muted); font-size: 14px; }
+.saved-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.code-form { display: grid; gap: 10px; }
+.code-form textarea {
+  font: 15px/1.4 var(--font-body); width: 100%; min-height: 96px; resize: vertical; padding: 10px 12px;
+  border-radius: 12px; border: 1.5px solid var(--line); background: var(--surface); color: var(--fg);
+}
+.form-msg { font-size: 14px; color: var(--cone-r); min-height: 1.4em; }
+.form-msg.ok { color: var(--primary); }
+
+/* Dialoog */
+dialog {
+  border: 0; padding: 0; border-radius: 18px; background: var(--surface); color: var(--fg);
+  width: min(680px, calc(100vw - 24px)); max-height: min(90vh, 900px); box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+}
+dialog::backdrop { background: rgba(8, 14, 10, .55); }
+.dlg { padding: 18px 18px 22px; display: grid; gap: 14px; }
+.dlg-head { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+.dlg-head h2 { font-size: 26px; font-weight: 900; font-stretch: 105%; margin-top: 2px; }
+.dlg h3 { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 4px; }
+.dlg ol, .dlg ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.facts { list-style: none; padding: 0 !important; display: grid !important; grid-template-columns: auto 1fr; gap: 6px 14px !important; }
+.facts li { display: contents; }
+.facts dt, .facts .k { font-family: var(--font-display); font-weight: 700; color: var(--muted); font-size: 14px; }
+.story {
+  margin: 0; padding: 12px 14px; border-radius: 12px; background: color-mix(in srgb, var(--vest) 30%, var(--surface));
+  font-size: 17px; line-height: 1.45; font-style: italic;
+}
+.vary { display: grid; gap: 10px; }
+@media (min-width: 520px) { .vary { grid-template-columns: 1fr 1fr; } }
+.vary > div { background: var(--surface-2); border-radius: 12px; padding: 10px 12px; }
+.vary h4 { font-size: 14px; font-weight: 800; margin-bottom: 2px; }
+.tip { border-left: 3px solid var(--cone); padding-left: 12px; }
+.tip strong { font-family: var(--font-display); }
+.dlg-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-top: 6px; border-top: 1px solid var(--line); }
+.dlg-actions .lbl { font-family: var(--font-display); font-weight: 700; font-size: 14px; color: var(--muted); width: 100%; }
+.pick-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pick-item {
+  width: 100%; display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; align-items: center; text-align: left;
+  padding: 8px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--surface); cursor: pointer;
+}
+.pick-item[aria-current="true"] { border-color: var(--fg); }
+.pick-item strong { font-family: var(--font-display); font-size: 16px; display: block; }
+.pick-item span { color: var(--muted); font-size: 13.5px; }
+.copy-area { width: 100%; min-height: 260px; font: 14px/1.45 var(--font-body); padding: 10px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--surface-2); color: var(--fg); }
+
+/* Toast */
+#toast {
+  position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(20px);
+  background: var(--fg); color: var(--bg); padding: 10px 16px; border-radius: 12px; font-family: var(--font-display); font-weight: 700;
+  opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 50; max-width: calc(100vw - 32px);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Timer */
+.timer {
+  position: fixed; inset: 0; z-index: 40; background: var(--t-bg); color: var(--t-fg);
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); color-scheme: dark;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(14px + env(safe-area-inset-bottom, 0px));
+}
+.timer .icon-btn { background: var(--t-surface); border-color: #2C4434; color: var(--t-fg); }
+.t-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; max-width: 760px; width: 100%; margin-inline: auto; }
+.t-step { font-family: var(--font-display); font-weight: 700; color: var(--t-muted); font-size: 14px; letter-spacing: .04em; }
+.t-main { overflow-y: auto; max-width: 760px; width: 100%; margin-inline: auto; padding-block: 12px; display: grid; align-content: start; gap: 12px; }
+.t-kicker { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--t-accent); font-size: 14px; }
+.t-title { font-family: var(--font-display); font-weight: 900; font-stretch: 105%; font-size: clamp(26px, 7vw, 44px); line-height: 1.05; }
+.t-clock {
+  font-family: var(--font-display); font-weight: 800; font-stretch: 72%; font-variant-numeric: tabular-nums;
+  font-size: clamp(88px, 30vw, 220px); line-height: .9; letter-spacing: -.02em;
+}
+.t-clock.warn { color: var(--t-warn); }
+.t-clock.paused { opacity: .5; }
+.t-bar { height: 8px; border-radius: 99px; background: var(--t-surface); overflow: hidden; }
+.t-bar i { display: block; height: 100%; background: var(--t-accent); width: 0; }
+.t-story { font-size: 18px; line-height: 1.45; color: var(--t-fg); font-style: italic; }
+.t-groups { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.t-groups li { display: grid; grid-template-columns: 82px 34px minmax(0, 1fr); gap: 10px; align-items: center; background: var(--t-surface); border-radius: 10px; padding: 8px 10px; }
+.t-groups b { font-family: var(--font-display); }
+.t-groups .letter { font-family: var(--font-display); font-weight: 900; font-size: 20px; color: var(--t-accent); text-align: center; }
+.t-next { color: var(--t-muted); font-size: 15px; }
+.t-controls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr); gap: 8px; max-width: 760px; width: 100%; margin-inline: auto; }
+.t-controls .btn { background: var(--t-surface); color: var(--t-fg); border-color: #2C4434; min-height: 58px; padding-inline: 8px; gap: 6px; }
+.t-controls .btn:disabled { opacity: .4; }
+.t-controls .btn.go { background: var(--t-accent); color: #142006; border-color: var(--t-accent); font-size: 18px; }
+.t-sub { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; max-width: 760px; width: 100%; margin: 8px auto 0; }
+.t-sub .mini { background: transparent; color: var(--t-muted); border: 1.5px solid #2C4434; }
+.t-link { background: none; border: 0; color: var(--t-accent); text-decoration: underline; cursor: pointer; padding: 0; font-family: var(--font-display); font-weight: 700; justify-self: start; min-height: 32px; }
+
+/* Kaarten (printversie) */
+.sheet { position: fixed; inset: 0; z-index: 30; background: var(--bg); overflow-y: auto; }
+.sheet-bar {
+  position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--line);
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+.sheet-bar .hint { color: var(--muted); font-size: 13.5px; flex-basis: 100%; }
+.sheet-page { max-width: 900px; margin-inline: auto; padding: 20px 16px 60px; display: grid; gap: 18px; }
+.sheet-page > header h1 { font-size: 30px; font-weight: 900; font-stretch: 108%; }
+.sched { width: 100%; border-collapse: collapse; font-size: 15px; }
+.sched td { padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.sched td:first-child { font-family: var(--font-display); font-weight: 800; font-variant-numeric: tabular-nums; width: 64px; }
+.pcards { display: grid; gap: 14px; }
+@media (min-width: 720px) { .pcards { grid-template-columns: 1fr 1fr; } }
+.pcard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 8px; align-content: start; break-inside: avoid; }
+.pcard h2 { font-size: 20px; font-weight: 900; }
+.pcard p, .pcard li { font-size: 14px; }
+.pcard ol { margin: 0; padding-left: 18px; }
+.pcard .story { font-size: 14.5px; padding: 8px 10px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+@media print {
+  :root, :root[data-theme], :root:not([data-theme="light"]) {
+    --bg: #FFFFFF; --surface: #FFFFFF; --surface-2: #F1F3EF; --fg: #111111; --muted: #444444; --line: #BBBBBB;
+    --field: #E6F0E1; --field-mow: #DCE9D6; --chalk: #2F5D3B; --net: rgba(47, 93, 59, .12); --ink-on-field: #222222;
+    color-scheme: light;
+  }
+  body > *:not(#sheet) { display: none !important; }
+  #sheet { position: static; overflow: visible; display: block !important; }
+  .sheet-bar { display: none; }
+  .sheet-page { padding: 0; max-width: none; }
+  .pcards { grid-template-columns: 1fr 1fr; }
+  .pcard { box-shadow: none; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <marker id="kv-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="sk-arrowhead"/>
+    </marker>
+    <pattern id="kv-mow" width="50" height="120" patternUnits="userSpaceOnUse">
+      <rect width="25" height="120" class="sk-mow"/>
+    </pattern>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 L19.5 20 H4.5 Z" fill="#E05A17"/><path d="M9.4 9 h5.2 l1.1 2.7 H8.3 Z" fill="#FFFFFF"/><rect x="2.5" y="19.5" width="19" height="2.5" rx="1" fill="#E05A17"/></svg>
+      <span>Kabouterveld</span>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Onderdelen">
+      <button class="tab" role="tab" id="tab-btn-training" data-tab="training" aria-selected="true">Training</button>
+      <button class="tab" role="tab" id="tab-btn-spellen" data-tab="spellen" aria-selected="false">Spellen</button>
+      <button class="tab" role="tab" id="tab-btn-bewaard" data-tab="bewaard" aria-selected="false">Bewaard</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="tab-training" role="tabpanel" aria-labelledby="tab-btn-training"></section>
+  <section id="tab-spellen" role="tabpanel" aria-labelledby="tab-btn-spellen" hidden></section>
+  <section id="tab-bewaard" role="tabpanel" aria-labelledby="tab-btn-bewaard" hidden></section>
+</main>
+
+<dialog id="dlg" aria-label="Details"><div id="dlg-body"></div></dialog>
+<div id="timer" class="timer" hidden role="dialog" aria-modal="true" aria-label="Trainingstimer"></div>
+<div id="sheet" class="sheet" hidden></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- Spellen ---------- */
+const GAMES = [
+  // Warming-up: allemaal samen, ±10 min
+  {
+    id: 'piraten', naam: 'Piraten en schatten', type: 'warmup', skill: 'dribbelen', duur: 10, groep: 'Allemaal samen',
+    materiaal: ['bal per kind', '8 pionnen', 'hesjes voor de piraten'],
+    opzet: 'Zet met pionnen een groot vak uit (ongeveer 20 bij 20 passen). Maak in een hoek een klein schateiland van 4 pionnen.',
+    verhaal: 'Jullie bal is jullie schat! De piraten willen hem stelen. Hou je schat dicht bij je voeten en ren weg van de piraten.',
+    verloop: ['Alle kinderen dribbelen met hun bal in het vak.', 'Twee of drie ouders met een hesje zijn piraten en proberen rustig een bal af te pakken.', 'Bal kwijt? Haal hem terug bij het schateiland en doe meteen weer mee.', 'Na een paar minuten worden een paar kinderen piraat.'],
+    makkelijker: 'Piraten lopen op hun hurken of kruipen als zeehond.',
+    moeilijker: 'Meer piraten, of kinderen zijn piraat en moeten zelf ook een bal meenemen.',
+    tip: 'Laat de piraten bijna winnen. Overdreven balen als een kind ontsnapt werkt geweldig.',
+    schets: [['z',14,12,172,96],['z',152,84,30,20,'eiland'],['kb',40,34],['kb',72,58],['kb',112,30],['kb',128,72],['kb',56,88],['kb',98,90],['p',88,42],['p',150,44],['a',88,42,104,33],['a',150,44,134,64]]
+  },
+  {
+    id: 'haaien', naam: 'Haaien en visjes', type: 'warmup', skill: 'dribbelen', duur: 10, groep: 'Allemaal samen',
+    materiaal: ['bal per kind', '10 pionnen'],
+    opzet: 'Zet een lang vak uit met aan beide kanten een strand (een strook van een paar passen). Het midden is de zee.',
+    verhaal: 'Jullie zijn visjes en moeten naar het andere strand zwemmen. Pas op voor de haaien in de zee!',
+    verloop: ['De visjes staan met hun bal op één strand.', 'Een ouder roept "Visjes, zwem!" en iedereen dribbelt naar het andere strand.', 'De haaien (ouders) proberen een bal weg te tikken.', 'Bal weggetikt? Bal pakken, één rondje om een pion en je zwemt weer mee. Niemand ligt eruit.'],
+    makkelijker: 'Haaien mogen alleen hinkelen of kruipen.',
+    moeilijker: 'Kinderen die hun bal kwijt zijn, worden ook haai. Wissel na elke ronde.',
+    tip: 'Geen afvalspellen bij deze leeftijd: wie eruit ligt staat stil en verliest de zin.',
+    schets: [['z',6,10,30,100,'strand'],['z',164,10,30,100,'strand'],['t',100,20,'zee'],['kb',18,28],['kb',18,50],['kb',18,72],['kb',18,94],['p',92,47],['p',110,82],['a',30,28,150,34],['a',30,72,150,80],['a',92,47,82,34]]
+  },
+  {
+    id: 'stoplicht', naam: 'Stoplicht', type: 'warmup', skill: 'balgevoel', duur: 10, groep: 'Allemaal samen',
+    materiaal: ['bal per kind', '8 pionnen'],
+    opzet: 'Zet een groot vak uit met pionnen. Elk kind heeft een bal.',
+    verhaal: 'Jullie zijn auto’s en de bal is je auto. Luister goed naar het stoplicht!',
+    verloop: ['Groen: rijden (dribbelen) door het vak.', 'Oranje: heel langzaam rijden.', 'Rood: stoppen met je voet bovenop de bal.', 'Extra: "Toeter!" en iedereen roept TOET TOET. "Garage!" en je gaat op je bal zitten.'],
+    makkelijker: 'Alleen groen en rood.',
+    moeilijker: 'Laat een kind het stoplicht zijn, of stop met je andere voet op de bal.',
+    tip: 'Gebruik je armen als stoplicht. Dan snappen ook de kinderen die niet luisteren het.',
+    schets: [['z',12,10,176,100],['kb',40,32],['kb',78,26],['kb',134,34],['kb',52,80],['kb',104,88],['kb',156,76],['p',100,56],['t',100,44,'groen · oranje · rood'],['a',40,32,58,46],['a',134,34,152,50],['a',52,80,74,92],['a',156,76,142,94]]
+  },
+  {
+    id: 'dierentuin', naam: 'Dierentuin', type: 'warmup', skill: 'dribbelen', duur: 10, groep: 'Allemaal samen',
+    materiaal: ['bal per kind', '8 pionnen'],
+    opzet: 'Zet een groot vak uit. Elk kind heeft een bal.',
+    verhaal: 'We gaan naar de dierentuin! Ik roep een dier en jullie dribbelen zoals dat dier.',
+    verloop: ['Olifant: grote stappen, stevig tegen de bal.', 'Muis: piepkleine tikjes, bal heel dichtbij.', 'Slang: slingeren tussen de andere kinderen door.', 'Kikker: stop de bal, ga op je hurken zitten en kwaak.', 'Laat de kinderen zelf ook dieren verzinnen.'],
+    makkelijker: 'Doe elk dier eerst zelf voor met een bal.',
+    moeilijker: 'Wissel snel tussen de dieren.',
+    tip: 'Kinderen verzinnen de gekste dieren. Ga erin mee, ook als het een dinosaurus wordt.',
+    schets: [['z',12,10,176,100],['kb',38,30],['kb',96,26],['kb',150,36],['kb',60,76],['kb',122,86],['p',100,58],['a',38,30,60,40,44,54],['a',150,36,166,48,170,64],['a',60,76,78,66,96,76],['t',60,100,'muis'],['t',160,22,'olifant']]
+  },
+  {
+    id: 'rommelkamer', naam: 'Rommelkamer', type: 'warmup', skill: 'schieten', duur: 10, groep: 'Allemaal samen',
+    materiaal: ['alle ballen', '6 pionnen'],
+    opzet: 'Maak met een rij pionnen een middenlijn. Kinderen aan de ene kant, ouders aan de andere kant. Verdeel alle ballen over beide helften.',
+    verhaal: 'Jullie kamer is een rommeltje! Schop alle ballen naar de kamer van de ouders. Maar de ouders schoppen ze terug…',
+    verloop: ['Op "Opruimen!" schiet iedereen ballen naar de andere helft.', 'De ouders schieten rustig terug (en missen vaak).', 'Na een minuut: "Stop!" Samen tellen welke kamer het rommeligst is.', 'Speel 3 of 4 rondjes.'],
+    makkelijker: 'Ouders gooien met de hand terug, en langzaam.',
+    moeilijker: 'Alleen schieten met de voet die je minder gebruikt.',
+    tip: 'Laat de kinderen altijd net winnen.',
+    schets: [['cl',100,12,100,108,6],['k',40,32],['k',58,62],['k',36,92],['k',72,40],['p',150,36],['p',146,82],['b',62,26],['b',80,74],['b',132,52],['b',162,96],['b',122,20],['s',64,64,138,60],['s',140,84,74,92]]
+  },
+  {
+    id: 'kleuren', naam: 'Kleurenjacht', type: 'warmup', skill: 'dribbelen', duur: 10, groep: 'Allemaal samen',
+    materiaal: ['bal per kind', 'pionnen in 3 of 4 kleuren'],
+    opzet: 'Zet pionnen van verschillende kleuren verspreid in een groot vak.',
+    verhaal: 'Ik roep een kleur. Wie dribbelt het snelst naar een pion van die kleur?',
+    verloop: ['De kinderen dribbelen vrij rond.', 'Een ouder roept een kleur: iedereen dribbelt naar een pion van die kleur en zet de voet op de bal.', 'Extra opdrachten: "Rondje om geel!" of "Twee kleuren aantikken!"'],
+    makkelijker: 'Wijs de kleur ook aan.',
+    moeilijker: 'Roep een kleur én een lichaamsdeel: "Blauw, tik de pion aan met je knie!"',
+    tip: 'Ook goed om kleuren te oefenen. De jongste kinderen lopen gewoon achter een ander aan.',
+    schets: [['z',12,10,176,100],['c',40,28,'y'],['c',152,26,'b'],['c',98,94,'y'],['c',30,90,'b'],['c',170,92,'r'],['c',96,26,'r'],['kb',70,56],['kb',122,62],['kb',150,74],['kb',48,70],['p',100,50],['a',70,56,48,36],['a',122,62,146,34]]
+  },
+
+  // Stations: groepje van ±5 met één ouder, 6 min
+  {
+    id: 'slalom', naam: 'Slalom door het bos', type: 'station', skill: 'dribbelen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '10 pionnen', '2 kleine goals'],
+    opzet: 'Zet twee rijen van 5 pionnen naast elkaar (de bomen), met aan het eind van elke rij een klein goal.',
+    verhaal: 'Je bal moet door het bos naar huis. Slinger langs alle bomen en schiet hem in het huisje.',
+    verloop: ['Gebruik twee rijen tegelijk, zodat niemand lang hoeft te wachten.', 'Dribbel om de pionnen heen en schiet in het goal.', 'Bal pakken, langs de buitenkant terug en opnieuw.', 'Het volgende kind mag starten als de vorige bij de derde pion is.'],
+    makkelijker: 'Pionnen verder uit elkaar, of gewoon rechtdoor langs de pionnen.',
+    moeilijker: 'Pionnen dichter bij elkaar, of alleen met links.',
+    tip: 'Ga als ouder bij de goals staan en juich elke goal toe.',
+    schets: [['cl',45,35,145,35,5],['cl',45,85,145,85,5],['g',182,35,'l'],['g',182,85,'l'],['kb',22,35],['kb',22,85],['k',10,54],['k',10,70],['p',168,60],['a',32,35,45,26,70,44,95,26,120,44,145,26,172,35],['a',32,85,45,94,70,76,95,94,120,76,145,94,172,85]]
+  },
+  {
+    id: 'poortjes', naam: 'Door de poortjes', type: 'station', skill: 'dribbelen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '12 pionnen'],
+    opzet: 'Maak 6 poortjes van twee pionnen (een grote stap breed), verspreid over een vak.',
+    verhaal: 'Elk poortje is een tunnel. Door hoeveel tunnels kun jij rijden?',
+    verloop: ['De kinderen dribbelen door zoveel mogelijk verschillende poortjes.', 'Ze tellen hardop: "Eén! Twee! Drie!"', 'Na een minuut even stoppen: hoeveel had iedereen? Daarna nog een keer.'],
+    makkelijker: 'Maak de poortjes breder.',
+    moeilijker: 'Smallere poortjes, of na elk poortje een andere voet.',
+    tip: 'Tot 10 tellen vinden ze al heel knap. Tel mee.',
+    schets: [['gt',40,30],['gt',98,24],['gt',154,36],['gt',62,86],['gt',118,82],['gt',168,92],['kb',22,56],['kb',82,54],['kb',134,58],['kb',96,104],['p',182,60],['a',22,50,40,30,60,20],['a',134,52,154,36,170,24],['a',82,62,118,82,140,90]]
+  },
+  {
+    id: 'krokodil', naam: 'Krokodillenrivier', type: 'station', skill: 'dribbelen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '8 pionnen'],
+    opzet: 'Maak een strook van ongeveer 3 passen breed: de rivier. Aan beide kanten is de oever.',
+    verhaal: 'In de rivier woont een hongerige krokodil. Kom jij met je bal aan de overkant zonder dat hij je bal pakt?',
+    verloop: ['De ouder is de krokodil en zit of ligt in de rivier.', 'De kinderen dribbelen naar de overkant.', 'De krokodil hapt alleen met zijn handen naar de bal en mag niet opstaan.', 'Bal gepakt? De krokodil rolt hem terug en je probeert het opnieuw.'],
+    makkelijker: 'De krokodil doet zijn ogen dicht en telt tot 3.',
+    moeilijker: 'Twee krokodillen, of een kind wordt ook krokodil.',
+    tip: 'Grommen en happen maakt dit spel. Hoe gekker de krokodil, hoe beter.',
+    schets: [['w',80,6,40,108],['z',6,10,50,100,'oever'],['z',144,10,50,100,'oever'],['t',100,18,'rivier'],['p',100,60],['kb',30,30],['kb',30,60],['kb',30,90],['kb',170,46],['kb',170,82],['a',40,30,140,26],['a',40,90,140,96],['a',160,46,60,52]]
+  },
+  {
+    id: 'kegelen', naam: 'Kegelen', type: 'station', skill: 'schieten', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '8 pionnen'],
+    opzet: 'Zet 6 pionnen op een rij (de kegels). Leg 4 à 5 passen ervoor een lijn waar de kinderen vandaan schieten.',
+    verhaal: 'Kun jij de kegels omschieten? Als alles omligt, zet de kegelkoning ze weer neer.',
+    verloop: ['Alle kinderen schieten tegelijk vanaf de lijn.', 'Bal zelf terughalen en opnieuw schieten.', 'Alles om? De ouder (de kegelkoning) zet ze weer recht, kinderen helpen mee.'],
+    makkelijker: 'Ga dichterbij staan.',
+    moeilijker: 'Verder weg, of schieten met de binnenkant van de voet.',
+    tip: 'Leg een bal bovenop een pion: dat is een kasteel. Dat omschieten is nog leuker.',
+    schets: [['ln',58,14,58,106],['cl',150,24,150,96,6],['kb',44,30],['kb',44,52],['kb',44,74],['kb',44,96],['k',24,62],['p',176,60],['s',56,32,144,31],['s',56,54,144,52],['s',56,76,144,74],['s',56,98,144,96]]
+  },
+  {
+    id: 'reus', naam: 'Scoor bij de reus', type: 'station', skill: 'schieten', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', 'grote goal', '2 pionnen'],
+    opzet: 'Een ouder staat in een groot goal. Twee pionnen ongeveer 8 passen voor het goal zijn de startplekken.',
+    verhaal: 'In het goal staat een reus. Hij is heel groot, maar ook heel traag. Kun jij langs hem scoren?',
+    verloop: ['De kinderen dribbelen vanaf een pion naar het goal en schieten.', 'De reus duikt altijd net te laat of de verkeerde kant op.', 'Bal uit het goal halen en weer aansluiten bij een pion.', 'Met twee startpionnen wordt er snel achter elkaar geschoten.'],
+    makkelijker: 'De reus houdt zijn handen op zijn rug.',
+    moeilijker: 'Schieten van verder weg, of eerst om een pion heen dribbelen.',
+    tip: 'Hou ongeveer 1 op de 4 ballen tegen, met veel drama. Dan blijft het spannend.',
+    schets: [['G',190,60,'l'],['p',180,60],['c',96,38],['c',96,82],['kb',84,38],['kb',84,82],['k',68,38],['k',68,82],['k',56,60],['a',104,38,140,48],['s',140,48,180,44],['a',104,82,140,72],['s',140,72,180,76]]
+  },
+  {
+    id: 'monster', naam: 'Het monster voeren', type: 'station', skill: 'schieten', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '1 klein goal'],
+    opzet: 'Zet een klein goal neer: dat is de mond van het monster. De ouder staat erachter en is het monster.',
+    verhaal: 'Het monster heeft heel erge honger. Voer het zoveel mogelijk ballen!',
+    verloop: ['De kinderen schieten hun bal van een paar passen afstand in het goal.', 'Het monster roept: "Meer! Ik heb nog honger!"', 'Liggen alle ballen erin? Dan moet het monster niezen en schopt alle ballen weer weg.', 'De kinderen halen de ballen en voeren het monster opnieuw.'],
+    makkelijker: 'Dichterbij gaan staan.',
+    moeilijker: 'Het monster schuift het goal langzaam opzij, of alleen voeren met links.',
+    tip: 'Monstergeluiden zijn verplicht.',
+    schets: [['g',150,60,'l'],['p',170,60],['t',170,44,'monster'],['kb',100,24],['kb',86,44],['kb',82,68],['kb',96,94],['kb',112,60],['s',108,28,146,53],['s',94,47,146,57],['s',90,71,146,62],['s',104,96,146,66]]
+  },
+  {
+    id: 'tunnel', naam: 'Door de tunnel', type: 'station', skill: 'passen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['3 ballen', '4 pionnen'],
+    opzet: 'Maak met twee pionnen een poortje. Twee kinderen staan aan weerszijden, een paar passen ervan af. De ouder staat wijdbeens als grote tunnel.',
+    verhaal: 'De bal is een treintje en moet door de tunnel naar het andere station.',
+    verloop: ['De kinderen passen in tweetallen door het poortje naar elkaar.', 'Bij de ouder: pass door de benen naar het kind aan de overkant.', 'Bal stoppen met je voet, en weer terug.', 'Elke minuut van plek wisselen.'],
+    makkelijker: 'Rol de bal met de hand.',
+    moeilijker: 'Maak het poortje smaller, of ga verder uit elkaar staan.',
+    tip: 'Roep na elke goede pass: "Tuuut tuuut!"',
+    schets: [['gt',100,24],['k',40,24],['k',160,24],['b',48,26],['s',48,24,150,24],['p',100,60],['k',40,60],['k',160,60],['b',48,62],['s',48,60,150,60],['gt',100,96],['k',40,96],['k',160,96],['b',152,98],['s',152,96,50,96]]
+  },
+  {
+    id: 'deksel', naam: 'Deksel erop', type: 'station', skill: 'passen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['2 of 3 ballen'],
+    opzet: 'De ouder staat in het midden, de kinderen in een halve cirkel eromheen op 3 à 4 passen.',
+    verhaal: 'De bal is een pan soep die overkookt. Snel de deksel erop: zet je voet bovenop de bal!',
+    verloop: ['De ouder rolt de bal naar een kind.', 'Het kind stopt de bal met de voetzool: deksel erop!', 'Daarna passt het kind de bal terug.', 'Snel door naar de volgende, zodat iedereen vaak aan de beurt is.'],
+    makkelijker: 'Langzaam rollen, korte afstand.',
+    moeilijker: 'Stoppen met links, of de ouder rolt met een boogje.',
+    tip: 'Werk met twee ballen tegelijk, dan wacht er nooit iemand.',
+    schets: [['p',100,96],['k',46,56],['k',70,32],['k',100,24],['k',130,32],['k',154,56],['b',76,38],['b',148,62],['s',98,88,78,44],['s',104,90,146,66],['t',100,114,'rollen · stoppen · terug']]
+  },
+  {
+    id: 'postbode', naam: 'Postbode', type: 'station', skill: 'passen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '4 kleine goals of 4 poortjes', 'pionnen in 4 kleuren'],
+    opzet: 'Zet 4 kleine goals of poortjes (de huizen) in een vierkant, elk met een gekleurde pion ernaast.',
+    verhaal: 'Jullie zijn postbodes. Breng de brief (de bal) naar het huis dat ik roep!',
+    verloop: ['De kinderen dribbelen in het midden: het postkantoor.', 'De ouder roept een kleur: dribbel naar dat huis en pass de bal door de deur.', 'Bal ophalen en terug naar het postkantoor.'],
+    makkelijker: 'Iedereen mag zelf een huis kiezen.',
+    moeilijker: 'Passen vanaf een pion op afstand, niet vlak voor het goal.',
+    tip: 'Laat een kind de kleur roepen voor een ander kind.',
+    schets: [['g',100,10,'b'],['g',100,110,'t'],['g',10,60,'r'],['g',190,60,'l'],['c',118,12,'y'],['c',118,108,'b'],['c',12,42,'r'],['c',188,42,'o'],['kb',90,54],['kb',112,66],['kb',100,42],['kb',84,74],['p',124,48],['a',112,66,166,62],['s',166,62,186,60],['a',90,54,34,58]]
+  },
+  {
+    id: 'piano', naam: 'Piano spelen', type: 'station', skill: 'balgevoel', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind'],
+    opzet: 'De kinderen staan op een rij met elk een bal voor zich. De ouder staat ervoor en doet alles voor.',
+    verhaal: 'De bal is een piano. Met je voetzool tik je op de toetsen: tik, tak, tik, tak!',
+    verloop: ['Om en om met links en rechts boven op de bal tikken.', 'Daarna de bal heen en weer tussen je voeten.', 'Een rondje om je bal lopen terwijl je hem aantikt.', 'Zing er een liedje bij, dat helpt.'],
+    makkelijker: 'Langzaam tellen, of een hand vasthouden voor je evenwicht.',
+    moeilijker: 'Sneller, of tikken en dan omdraaien.',
+    tip: 'Hou elke opdracht kort, 30 tot 45 seconden, en wissel dan.',
+    schets: [['k',40,66],['k',70,66],['k',100,66],['k',130,66],['k',160,66],['b',40,56],['b',70,56],['b',100,56],['b',130,56],['b',160,56],['p',100,102],['t',100,30,'tik · tak · tik · tak']]
+  },
+  {
+    id: 'hondje', naam: 'Hondje uitlaten', type: 'station', skill: 'balgevoel', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '4 pionnen'],
+    opzet: 'Zet een klein vak uit met 4 pionnen. Elk kind heeft een bal: dat is hun hondje.',
+    verhaal: 'Je bal is je hondje. Hij mag niet weglopen, dus hou hem heel dicht bij je voeten!',
+    verloop: ['De kinderen laten hun hondje uit door het vak.', '"Zit!": voet op de bal.', '"Draai om!": met de bal de andere kant op.', '"Aaien!": hurk en aai je bal, daarna verder.'],
+    makkelijker: 'Maak het vak groter.',
+    moeilijker: 'Maak het vak kleiner, of dribbel met de buitenkant van je voet.',
+    tip: 'Vraag hoe hun hondje heet. Dan zijn ze er meteen bij.',
+    schets: [['c',30,15],['c',170,15],['c',30,105],['c',170,105],['z',30,15,140,90],['kb',62,40],['kb',112,34],['kb',140,72],['kb',80,80],['kb',118,92],['p',14,60],['a',62,40,76,30,90,38],['a',140,72,152,56,138,48],['a',80,80,66,92,52,82]]
+  },
+  {
+    id: 'ruilen', naam: 'Ballen ruilen', type: 'station', skill: 'balgevoel', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '4 pionnen'],
+    opzet: 'Zet een klein vak uit. Elk kind heeft een bal.',
+    verhaal: 'Op mijn fluit laat iedereen zijn bal liggen en zoek je zo snel mogelijk een andere bal!',
+    verloop: ['Dribbelen in het vak.', 'Bij een fluitsignaal (of "Ruilen!") laat je je bal liggen en pak je een andere.', 'De ouder pakt stiekem ook een bal, zodat er één te weinig is. Wie heeft er geen?', 'Niemand ligt eruit: wie geen bal heeft, mag bij de volgende ronde fluiten.'],
+    makkelijker: 'Zorg dat er genoeg ballen zijn voor iedereen.',
+    moeilijker: 'Na het ruilen eerst een rondje om een pion.',
+    tip: 'Gebruik een fluitje als je er een hebt. Kinderen vinden dat geweldig.',
+    schets: [['z',30,15,140,90],['k',60,40],['b',76,48],['k',110,34],['b',100,60],['k',142,76],['b',150,40],['k',80,86],['b',130,92],['k',52,72],['b',56,28],['p',14,60],['a',60,40,72,46],['a',110,34,102,54],['a',142,76,148,48]]
+  },
+
+  // Partijtjes: per veldje 4–8 kinderen, 12 min
+  {
+    id: '2tegen2', naam: '2 tegen 2', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 4–5 kinderen',
+    materiaal: ['2 kleine goals per veldje', 'hesjes', 'reserveballen'],
+    opzet: 'Maak 4 kleine veldjes (ongeveer 15 bij 10 passen) met aan elke kant een klein goal. Per veldje één ouder.',
+    verhaal: 'Nu gaan we echt voetballen! Probeer te scoren in het goal van de andere kinderen.',
+    verloop: ['Speel 2 tegen 2, zonder keepers.', 'Bal uit? De ouder rolt meteen een nieuwe bal in. Geen ingooien.', 'Is er een vijfde kind? Na elk doelpunt wisselt er iemand.', 'Hussel de teams elke 4 minuten.'],
+    makkelijker: 'Grotere goals, of 3 tegen 2.',
+    moeilijker: 'Kleinere goals.',
+    tip: 'De KNVB adviseert 2 tegen 2 voor deze leeftijd: veel balcontact en veel scoren.',
+    schets: [['z',4,6,192,108],['g',10,60,'r'],['g',190,60,'l'],['k',62,44,0],['k',72,82,0],['k',128,50,1],['k',140,78,1],['b',68,48],['k',100,112,1],['p',26,108],['a',68,48,110,40],['s',140,78,184,64]]
+  },
+  {
+    id: 'viergoals', naam: 'Vier goaltjes', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 6 kinderen',
+    materiaal: ['4 kleine goals per veldje', 'hesjes'],
+    opzet: 'Maak een veldje met aan elke kant twee kleine goals, in de hoeken.',
+    verhaal: 'Elk team mag in twee goals scoren. Kijk goed waar het goal leeg is!',
+    verloop: ['Speel 3 tegen 3, zonder keepers.', 'Scoren mag in allebei de goals aan de overkant.', 'De ouder rolt meteen een nieuwe bal in.', 'Hussel de teams elke 4 minuten.'],
+    makkelijker: 'Maak er 2 tegen 2 van.',
+    moeilijker: 'Maak het veldje kleiner.',
+    tip: 'Met twee goals zien kinderen vanzelf dat je ook naar de andere kant kunt dribbelen.',
+    schets: [['z',4,6,192,108],['g',10,28,'r'],['g',10,92,'r'],['g',190,28,'l'],['g',190,92,'l'],['k',50,40,0],['k',62,76,0],['k',88,56,0],['k',116,48,1],['k',142,34,1],['k',136,86,1],['b',94,60],['a',94,60,150,84],['s',150,84,184,90]]
+  },
+  {
+    id: 'ballenregen', naam: 'Ballenregen', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 4–6 kinderen',
+    materiaal: ['2 kleine goals per veldje', 'hesjes', 'stapel ballen'],
+    opzet: 'Een gewoon veldje met twee kleine goals. De ouder staat aan de zijkant met een stapel ballen.',
+    verhaal: 'Het regent ballen! Na elk doelpunt valt er meteen een nieuwe bal uit de lucht.',
+    verloop: ['Speel 2 tegen 2 of 3 tegen 3.', 'Na elk doelpunt, of als de bal uit is, gooit de ouder meteen een nieuwe bal in het veld.', 'Soms gooit de ouder twee ballen tegelijk. Dan wordt het chaos, en dat is goed.'],
+    makkelijker: 'Gooi de nieuwe bal naar het team dat nog niet scoorde.',
+    moeilijker: 'Gooi de nieuwe bal in een hoek, zodat ze moeten rennen.',
+    tip: 'Leg de gescoorde ballen achter het goal. Aan het eind tellen: wat een regen!',
+    schets: [['z',4,6,192,96],['g',10,54,'r'],['g',190,54,'l'],['k',60,40,0],['k',74,74,0],['k',122,40,1],['k',136,72,1],['b',82,56],['p',100,111],['b',88,110],['b',112,110],['s',100,104,100,66],['t',150,112,'nieuwe bal!']]
+  },
+  {
+    id: 'grotegoals', naam: 'Wedstrijd op grote goals', type: 'partij', skill: 'wedstrijd', duur: 12, groep: '8 kinderen, rest op 2 tegen 2',
+    materiaal: ['2 grote goals', 'kleine goals voor de rest', 'hesjes'],
+    opzet: 'Speel op een half veld met de twee grote goals. Twee teams van 4. De andere kinderen spelen ernaast 2 tegen 2 op kleine goals.',
+    verhaal: 'Net als de profs: een echte wedstrijd op grote goals!',
+    verloop: ['Speel 4 tegen 4, zonder keepers (of met een ouder die heel slecht keept).', 'De ouders rollen meteen nieuwe ballen in.', 'Wissel na 6 minuten met de kinderen op de kleine veldjes.'],
+    makkelijker: 'Maak het veld kleiner.',
+    moeilijker: 'Elk team een keeper, die na elke goal wisselt.',
+    tip: 'Met 4 tegen 4 krijgt niet elk kind vaak de bal. Wissel daarom halverwege met de 2-tegen-2-veldjes.',
+    schets: [['z',4,6,192,108],['G',8,60,'r'],['G',192,60,'l'],['k',40,36,0],['k',54,86,0],['k',80,56,0],['k',96,28,0],['k',110,82,1],['k',124,46,1],['k',150,66,1],['k',160,30,1],['b',86,60],['a',86,60,118,62]]
+  },
+
+  // Afsluiters: allemaal samen, ±3 min
+  {
+    id: 'penalty', naam: 'Penalty op de trainer', type: 'afsluiter', skill: 'schieten', duur: 3, groep: 'Allemaal samen',
+    materiaal: ['1 bal per kind', 'grote goal'],
+    opzet: 'Een ouder staat in het grote goal. Leg de bal op een pion ongeveer 6 passen ervoor.',
+    verhaal: 'Laatste kans! Wie scoort er tegen de beste keeper van de wereld?',
+    verloop: ['Elk kind schiet één penalty.', 'De keeper duikt dramatisch mis (meestal).', 'De andere kinderen juichen bij elke goal.'],
+    makkelijker: 'De keeper zit op zijn knieën.',
+    moeilijker: 'Tweede ronde: penalty met je andere voet.',
+    tip: 'Minder wachten: gebruik beide grote goals met twee ouders als keeper.',
+    schets: [['G',190,60,'l'],['p',180,60],['b',146,60],['k',134,64,0],['k',56,26,0],['k',56,44,0],['k',56,62,1],['k',56,80,0],['k',56,98,1],['t',56,14,'juichen!'],['s',148,60,180,44]]
+  },
+  {
+    id: 'ouders', naam: 'Kinderen tegen ouders', type: 'afsluiter', skill: 'wedstrijd', duur: 3, groep: 'Allemaal samen',
+    materiaal: ['1 of 2 ballen', '2 grote goals'],
+    opzet: 'Alle kinderen tegen alle ouders, op een half veld met grote goals.',
+    verhaal: 'De grote finale: kinderen tegen ouders!',
+    verloop: ['Ouders mogen alleen huppelen, of achteruit lopen.', 'De kinderen houden de stand bij. Het wordt altijd gelijk, of de kinderen winnen.', 'Na 3 minuten is het einde en geeft iedereen elkaar een high five.'],
+    makkelijker: 'Speel met twee ballen tegelijk.',
+    moeilijker: 'Ouders mogen gewoon lopen, maar niet te hard.',
+    tip: 'Laat de kinderen de laatste goal maken. Altijd.',
+    schets: [['G',8,60,'r'],['G',192,60,'l'],['k',52,30],['k',64,56],['k',48,84],['k',84,40],['k',90,76],['k',110,58],['k',70,100],['p',140,40],['p',152,74],['p',128,96],['b',116,62],['a',116,62,150,60],['s',150,60,184,58]]
+  },
+  {
+    id: 'erehaag', naam: 'Erehaag', type: 'afsluiter', skill: 'dribbelen', duur: 3, groep: 'Allemaal samen',
+    materiaal: ['bal per kind', 'grote goal'],
+    opzet: 'De ouders staan in twee rijen tegenover elkaar en vormen een tunnel richting het grote goal.',
+    verhaal: 'Jullie zijn de sterren van vandaag! Dribbel door de erehaag en scoor de laatste goal.',
+    verloop: ['Om de beurt dribbelt een kind door de erehaag.', 'De ouders klappen, juichen en geven high fives.', 'Aan het eind van de tunnel scoren in het grote goal.'],
+    makkelijker: 'Zonder bal, gewoon rennen en high fives geven.',
+    moeilijker: 'Ouders steken heel langzaam een been uit als hindernis.',
+    tip: 'Goed moment om te zeggen wat je vandaag goed vond.',
+    schets: [['G',192,60,'l'],['p',50,40],['p',80,40],['p',110,40],['p',140,40],['p',50,80],['p',80,80],['p',110,80],['p',140,80],['kb',18,60],['k',14,90,1],['k',14,30,1],['a',30,60,182,60]]
+  },
+  {
+    id: 'opruimen', naam: 'Opruimrace', type: 'afsluiter', skill: 'samen', duur: 3, groep: 'Allemaal samen',
+    materiaal: ['alle pionnen en ballen', 'ballentas'],
+    opzet: 'Na de training liggen er overal pionnen en ballen. Een ouder staat bij de ballentas.',
+    verhaal: 'Wie helpt de trainer? Breng zoveel mogelijk pionnen naar de tas. Ballen mag je dribbelen!',
+    verloop: ['Pionnen naar de ouder bij de tas brengen.', 'Ballen dribbelen en in het grote goal schieten. Daar gaan ze in de tas.', 'Samen hardop tellen hoeveel pionnen er zijn.'],
+    makkelijker: 'Eén pion per keer.',
+    moeilijker: 'Pionnen op je hoofd dragen.',
+    tip: 'Werkt verrassend goed: in 2 minuten is alles opgeruimd.',
+    schets: [['c',30,24],['c',62,40,'y'],['c',150,30],['c',176,54,'b'],['c',36,70],['c',150,76,'y'],['b',110,26],['b',176,94],['z',82,90,36,24,'tas'],['p',100,104],['k',50,48],['k',140,52,1],['k',120,72],['a',50,48,90,92],['a',140,52,108,90],['a',120,72,104,88]]
+  }
+];
+
+const SKILLS = { dribbelen: 'Dribbelen', schieten: 'Schieten', passen: 'Passen en stoppen', balgevoel: 'Balgevoel', wedstrijd: 'Partijtje', samen: 'Samen' };
+const TYPES = { warmup: 'Warming-up', station: 'Station', partij: 'Partijtje', afsluiter: 'Afsluiter' };
+const SLOTS = [
+  { key: 'warmup', type: 'warmup', label: 'Warming-up' },
+  { key: 's1', type: 'station', skill: 'dribbelen', label: 'Station A', letter: 'A' },
+  { key: 's2', type: 'station', skill: 'schieten', label: 'Station B', letter: 'B' },
+  { key: 's3', type: 'station', skill: 'passen', label: 'Station C', letter: 'C' },
+  { key: 's4', type: 'station', skill: 'balgevoel', label: 'Station D', letter: 'D' },
+  { key: 'partij', type: 'partij', label: 'Partijtjes' },
+  { key: 'afsluiter', type: 'afsluiter', label: 'Afsluiter' }
+];
+const SLOT = Object.fromEntries(SLOTS.map(s => [s.key, s]));
+const STATIONS = ['s1', 's2', 's3', 's4'];
+const byId = Object.fromEntries(GAMES.map(g => [g.id, g]));
+
+/* ---------- Hulpjes ---------- */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('kv.' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('kv.' + k, JSON.stringify(v)); } catch (e) { /* geen opslag beschikbaar */ } }
+};
+let framed = true;
+try { framed = window.self !== window.top; } catch (e) { framed = true; }
+
+function clock(start, addMin) {
+  const [h, m] = (start || '18:00').split(':').map(Number);
+  const t = (h * 60 + m + addMin + 1440) % 1440;
+  return String(Math.floor(t / 60)).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0');
+}
+
+const I = {
+  dice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>',
+  play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>',
+  pause: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>',
+  swap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9a8 8 0 0 1 14-3l2 2"/><path d="M20 4v4h-4"/><path d="M20 15a8 8 0 0 1-14 3l-2-2"/><path d="M4 20v-4h4"/></svg>',
+  list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="18" r="1" fill="currentColor"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>',
+  unlock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 7.6-1.7"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/></svg>',
+  heartFill: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 8.5V5.5a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg>',
+  save: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h12a1 1 0 0 1 1 1v16l-7-4.5-7 4.5v-16a1 1 0 0 1 1-1z"/></svg>',
+  cards: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="11" height="15" rx="2"/><path d="M17.5 7.5l3 .8-3.2 12-6.3-1.7"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  next: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 5v14l10-7z"/><rect x="16" y="5" width="3" height="14" rx="1"/></svg>',
+  prev: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 5v14L9 12z"/><rect x="5" y="5" width="3" height="14" rx="1"/></svg>',
+  sound: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+  mute: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>'
+};
+
+/* ---------- Schetsen ---------- */
+const LAYER = { z: 0, w: 0, ln: 0, a: 1, s: 1, c: 2, cl: 2, gt: 2, g: 2, G: 2, k: 3, kb: 3, p: 3, b: 4, t: 5 };
+function cone(x, y, c) {
+  const cls = c && c !== 'o' ? ' ' + c : '';
+  return `<path d="M${x} ${y - 4.2}L${x - 3.6} ${y + 3}H${x + 3.6}Z" class="sk-cone${cls}"/>`;
+}
+function goal(x, y, dir, big) {
+  const L = big ? 34 : 18, D = big ? 7 : 5;
+  const vert = dir === 'l' || dir === 'r';
+  const w = vert ? D : L, h = vert ? L : D;
+  const x0 = x - w / 2, y0 = y - h / 2;
+  let post = '';
+  if (dir === 'l') post = `<path d="M${x0} ${y0}V${y0 + h}" class="sk-post"/>`;
+  if (dir === 'r') post = `<path d="M${x0 + w} ${y0}V${y0 + h}" class="sk-post"/>`;
+  if (dir === 't') post = `<path d="M${x0} ${y0}H${x0 + w}" class="sk-post"/>`;
+  if (dir === 'b') post = `<path d="M${x0} ${y0 + h}H${x0 + w}" class="sk-post"/>`;
+  return `<rect x="${x0}" y="${y0}" width="${w}" height="${h}" class="sk-goal"/>${post}`;
+}
+function route(pts) {
+  const p = [];
+  for (let i = 0; i < pts.length; i += 2) p.push([pts[i], pts[i + 1]]);
+  if (p.length === 2) return `M${p[0][0]} ${p[0][1]}L${p[1][0]} ${p[1][1]}`;
+  let d = `M${p[0][0]} ${p[0][1]}`;
+  for (let i = 1; i < p.length - 1; i++) {
+    const mx = (p[i][0] + p[i + 1][0]) / 2, my = (p[i][1] + p[i + 1][1]) / 2;
+    d += `Q${p[i][0]} ${p[i][1]} ${mx} ${my}`;
+  }
+  const last = p[p.length - 1];
+  return d + `L${last[0]} ${last[1]}`;
+}
+function sketch(g) {
+  const items = g.schets.map((it, i) => [it, i]).sort((a, b) => (LAYER[a[0][0]] - LAYER[b[0][0]]) || (a[1] - b[1]));
+  let s = `<svg viewBox="0 0 200 120" class="sk" role="img" aria-label="Schets: ${esc(g.naam)}"><rect x="0" y="0" width="200" height="120" rx="8" class="sk-field"/><rect x="0" y="0" width="200" height="120" rx="8" fill="url(#kv-mow)"/>`;
+  for (const [it] of items) {
+    const [t, ...a] = it;
+    switch (t) {
+      case 'z': s += `<rect x="${a[0]}" y="${a[1]}" width="${a[2]}" height="${a[3]}" rx="3" class="sk-zone"/>`;
+        if (a[4]) s += `<text x="${a[0] + 4}" y="${a[1] + 9}" class="sk-txt l">${esc(a[4])}</text>`; break;
+      case 'w': s += `<rect x="${a[0]}" y="${a[1]}" width="${a[2]}" height="${a[3]}" class="sk-water"/>`; break;
+      case 'ln': s += `<path d="M${a[0]} ${a[1]}L${a[2]} ${a[3]}" class="sk-line"/>`; break;
+      case 'c': s += cone(a[0], a[1], a[2]); break;
+      case 'cl': for (let i = 0; i < a[4]; i++) s += cone(a[0] + (a[2] - a[0]) * i / (a[4] - 1), a[1] + (a[3] - a[1]) * i / (a[4] - 1)); break;
+      case 'gt': s += cone(a[0], a[1] - 7) + cone(a[0], a[1] + 7); break;
+      case 'g': s += goal(a[0], a[1], a[2], false); break;
+      case 'G': s += goal(a[0], a[1], a[2], true); break;
+      case 'k': s += `<circle cx="${a[0]}" cy="${a[1]}" r="4.6" class="sk-kid t${a[2] || 0}"/>`; break;
+      case 'kb': s += `<circle cx="${a[0]}" cy="${a[1]}" r="4.6" class="sk-kid t${a[2] || 0}"/><circle cx="${a[0] + 5.6}" cy="${a[1] + 3.6}" r="2.6" class="sk-ball"/>`; break;
+      case 'p': s += `<circle cx="${a[0]}" cy="${a[1]}" r="5.8" class="sk-parent"/>`; break;
+      case 'b': s += `<circle cx="${a[0]}" cy="${a[1]}" r="2.6" class="sk-ball"/>`; break;
+      case 'a': s += `<path d="${route(a)}" class="sk-run"/>`; break;
+      case 's': s += `<path d="${route(a)}" class="sk-pass"/>`; break;
+      case 't': s += `<text x="${a[0]}" y="${a[1]}" class="sk-txt">${esc(a[2])}</text>`; break;
+    }
+  }
+  return s + '</svg>';
+}
+const LEGEND = `<div class="legend" aria-label="Legenda">
+  <span><svg viewBox="0 0 18 12"><circle cx="9" cy="6" r="4.6" class="sk-kid"/></svg>kind</span>
+  <span><svg viewBox="0 0 18 12"><circle cx="9" cy="6" r="5.4" class="sk-parent"/></svg>ouder</span>
+  <span><svg viewBox="0 0 18 12"><circle cx="9" cy="6" r="3" class="sk-ball"/></svg>bal</span>
+  <span><svg viewBox="0 0 18 12"><path d="M9 1.5L5 10H13Z" class="sk-cone"/></svg>pion</span>
+  <span><svg viewBox="0 0 18 12"><rect width="18" height="12" rx="2" class="sk-field"/><path d="M2 6H13" class="sk-run"/></svg>dribbelen / lopen</span>
+  <span><svg viewBox="0 0 18 12"><rect width="18" height="12" rx="2" class="sk-field"/><path d="M2 6H13" class="sk-pass"/></svg>pass / schot</span>
+</div>`;
+
+/* ---------- State ---------- */
+const state = {
+  slots: {},
+  locks: {},
+  start: '18:00',
+  tab: 'training',
+  filter: 'all',
+  favs: new Set(store.get('favs', [])),
+  saved: store.get('saved', [])
+};
+function validSlots(slots) {
+  return slots && SLOTS.every(s => byId[slots[s.key]] && byId[slots[s.key]].type === s.type);
+}
+function fillSlot(key, avoid) {
+  const slot = SLOT[key];
+  const used = Object.entries(state.slots).filter(([k]) => k !== key).map(([, v]) => v);
+  const base = GAMES.filter(g => g.type === slot.type && !used.includes(g.id));
+  let pool = base.filter(g => g.id !== avoid);
+  if (slot.type === 'station') {
+    const same = pool.filter(g => g.skill === slot.skill);
+    if (same.length) pool = same;
+  }
+  if (!pool.length) pool = base;
+  if (pool.length) state.slots[key] = pick(pool).id;
+}
+function shuffle() {
+  for (const s of SLOTS) if (!state.locks[s.key]) fillSlot(s.key, state.slots[s.key]);
+}
+function persist() { store.set('current', { slots: state.slots, locks: state.locks, start: state.start }); }
+
+(function init() {
+  const cur = store.get('current', null);
+  if (cur && validSlots(cur.slots)) {
+    state.slots = { ...cur.slots };
+    state.locks = cur.locks || {};
+    if (/^\d{2}:\d{2}$/.test(cur.start || '')) state.start = cur.start;
+  } else {
+    shuffle();
+  }
+  state.tab = store.get('tab', 'training');
+  const hash = (location.hash || '').slice(1);
+  if (['training', 'spellen', 'bewaard'].includes(hash)) state.tab = hash;
+})();
+
+/* ---------- Schema ---------- */
+function schedule() {
+  return [
+    { kind: 'intro', min: 5, title: 'Binnenkomst' },
+    { kind: 'game', slot: 'warmup', min: 10, title: 'Warming-up' },
+    { kind: 'round', round: 0, min: 6, title: 'Stations · ronde 1' },
+    { kind: 'switch', round: 1, min: 1, title: 'Wisselen' },
+    { kind: 'round', round: 1, min: 6, title: 'Stations · ronde 2' },
+    { kind: 'break', round: 2, min: 3, title: 'Drinkpauze' },
+    { kind: 'round', round: 2, min: 6, title: 'Stations · ronde 3' },
+    { kind: 'switch', round: 3, min: 1, title: 'Wisselen' },
+    { kind: 'round', round: 3, min: 6, title: 'Stations · ronde 4' },
+    { kind: 'toGame', min: 1, title: 'Naar de partijtjes' },
+    { kind: 'game', slot: 'partij', min: 12, title: 'Partijtjes' },
+    { kind: 'game', slot: 'afsluiter', min: 3, title: 'Afsluiter' }
+  ].reduce((acc, b) => { b.at = acc.length ? acc[acc.length - 1].at + acc[acc.length - 1].min : 0; acc.push(b); return acc; }, []);
+}
+const stationFor = (group, round) => STATIONS[(group + round) % 4];
+function keyTimes() {
+  const sc = schedule();
+  const at = f => sc.find(f).at;
+  return {
+    intro: 0,
+    warmup: at(b => b.slot === 'warmup'),
+    stations: at(b => b.kind === 'round'),
+    rounds: sc.filter(b => b.kind === 'round').map(b => b.at),
+    partij: at(b => b.slot === 'partij'),
+    afsluiter: at(b => b.slot === 'afsluiter'),
+    end: sc[sc.length - 1].at + sc[sc.length - 1].min
+  };
+}
+const game = key => byId[state.slots[key]];
+const code = slots => SLOTS.map(s => (slots || state.slots)[s.key]).join('.');
+
+/* ---------- Training ---------- */
+function slotCard(key) {
+  const s = SLOT[key], g = game(key), locked = !!state.locks[key];
+  const label = s.type === 'station' ? `${s.label} · ${SKILLS[g.skill]}` : `${g.groep} · ${SKILLS[g.skill]}`;
+  return `<article class="slot${locked ? ' locked' : ''}">
+    <button class="slot-main" data-action="detail" data-id="${g.id}" data-slot="${key}" aria-label="${esc(g.naam)}: uitleg bekijken">
+      <span class="slot-sketch">${sketch(g)}</span>
+      <span class="slot-text">
+        <span class="slot-label">${esc(label)}</span>
+        <span class="slot-name">${esc(g.naam)}</span>
+        <span class="slot-story">${esc(g.verhaal)}</span>
+      </span>
+    </button>
+    <div class="slot-actions">
+      <button class="mini" data-action="reroll" data-slot="${key}" ${locked ? 'disabled' : ''}>${I.swap}Ander spel</button>
+      <button class="mini" data-action="pick" data-slot="${key}">${I.list}Kiezen</button>
+      <button class="mini" data-action="lock" data-slot="${key}" aria-pressed="${locked}">${locked ? I.lock : I.unlock}${locked ? 'Vast' : 'Vastzetten'}</button>
+    </div>
+  </article>`;
+}
+function rotationTable() {
+  const t = keyTimes();
+  const head = t.rounds.map((m, r) => `<th scope="col">Ronde ${r + 1}<small>${clock(state.start, m)}</small></th>`).join('');
+  const rows = [0, 1, 2, 3].map(g => `<tr><th scope="row">Groep ${g + 1}</th>${[0, 1, 2, 3].map(r => {
+    const k = stationFor(g, r); const i = STATIONS.indexOf(k);
+    return `<td class="l${i}" title="${esc(game(k).naam)}">${SLOT[k].letter}</td>`;
+  }).join('')}</tr>`).join('');
+  return `<div class="rot-wrap"><table class="rot"><thead><tr><th></th>${head}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function renderTraining() {
+  const t = keyTimes(), st = state.start;
+  const stEnd = t.partij - 1;
+  $('#tab-training').innerHTML = `
+    <div class="intro">
+      <div>
+        <p class="eyebrow">O6 · 4 en 5 jaar · ±20 kinderen · 4 groepjes</p>
+        <h1>Training van vandaag</h1>
+        <p class="lede">Een uur voetbal met vier groepjes, elk met een ouder. Hussel tot je tevreden bent. Spellen die je zeker wilt doen, zet je vast.</p>
+      </div>
+      <div class="intro-actions">
+        <label class="start-field" for="start-time">Start <input type="time" id="start-time" value="${esc(st)}" step="300"></label>
+        <button class="btn" data-action="shuffle">${I.dice}Hussel</button>
+        <button class="btn primary" data-action="timer">${I.play}Start training</button>
+      </div>
+    </div>
+    <ol class="timeline">
+      <li class="tl">
+        <div class="tl-time">${clock(st, t.intro)}</div>
+        <div>
+          <div class="tl-head"><h2>Binnenkomst</h2><span class="meta">5 min · allemaal samen</span></div>
+          <div class="plain-card"><p class="note">Iedereen pakt een bal en speelt vrij of schiet op de grote goals. Intussen zetten de ouders de vier stations klaar.</p></div>
+        </div>
+      </li>
+      <li class="tl">
+        <div class="tl-time">${clock(st, t.warmup)}</div>
+        <div>
+          <div class="tl-head"><h2>Warming-up</h2><span class="meta">10 min · allemaal samen</span></div>
+          ${slotCard('warmup')}
+        </div>
+      </li>
+      <li class="tl">
+        <div class="tl-time">${clock(st, t.stations)}<small>–${clock(st, stEnd)}</small></div>
+        <div>
+          <div class="tl-head"><h2>Stations</h2><span class="meta">4 × 6 min · elk groepje schuift door · drinkpauze na ronde 2</span></div>
+          <div class="stations">${STATIONS.map(slotCard).join('')}</div>
+          ${rotationTable()}
+        </div>
+      </li>
+      <li class="tl">
+        <div class="tl-time">${clock(st, t.partij)}</div>
+        <div>
+          <div class="tl-head"><h2>Partijtjes</h2><span class="meta">12 min · teams husselen</span></div>
+          ${slotCard('partij')}
+        </div>
+      </li>
+      <li class="tl">
+        <div class="tl-time">${clock(st, t.afsluiter)}</div>
+        <div>
+          <div class="tl-head"><h2>Afsluiter</h2><span class="meta">3 min · allemaal samen</span></div>
+          ${slotCard('afsluiter')}
+        </div>
+      </li>
+      <li class="tl">
+        <div class="tl-time">${clock(st, t.end)}</div>
+        <div><div class="tl-head"><h2>Einde</h2><span class="meta">high five voor iedereen</span></div></div>
+      </li>
+    </ol>
+    <div class="share-row">
+      <button class="btn" data-action="copy">${I.copy}Kopieer voor de app-groep</button>
+      <button class="btn" data-action="save">${I.save}Bewaar training</button>
+      <button class="btn" data-action="sheet">${I.cards}Trainingskaarten</button>
+    </div>`;
+}
+
+/* ---------- Spellen ---------- */
+function renderCatalog() {
+  const f = state.filter;
+  const count = k => k === 'all' ? GAMES.length : k === 'fav' ? GAMES.filter(g => state.favs.has(g.id)).length : GAMES.filter(g => g.type === k).length;
+  const chips = [['all', 'Alles'], ['warmup', 'Warming-up'], ['station', 'Stations'], ['partij', 'Partijtjes'], ['afsluiter', 'Afsluiters'], ['fav', 'Favorieten']]
+    .map(([k, l]) => `<button class="chip" data-action="filter" data-filter="${k}" aria-pressed="${f === k}">${l}<span class="n">${count(k)}</span></button>`).join('');
+  const list = GAMES.filter(g => f === 'all' || (f === 'fav' ? state.favs.has(g.id) : g.type === f));
+  const cards = list.map(g => `<div class="card-wrap"><article class="card">
+      <button class="card-open" data-action="detail" data-id="${g.id}" aria-label="${esc(g.naam)}: uitleg bekijken">
+        ${sketch(g)}
+        <span class="card-body">
+          <h3>${esc(g.naam)}</h3>
+          <span class="tags"><span class="tag">${TYPES[g.type]}</span><span class="tag">${SKILLS[g.skill]}</span><span class="tag">${g.duur} min</span></span>
+          <span class="story-line">${esc(g.verhaal)}</span>
+        </span>
+      </button>
+    </article>
+    <button class="fav-btn" data-action="fav" data-id="${g.id}" aria-pressed="${state.favs.has(g.id)}" aria-label="${esc(g.naam)} als favoriet">${state.favs.has(g.id) ? I.heartFill : I.heart}</button>
+  </div>`).join('');
+  $('#tab-spellen').innerHTML = `
+    <div class="cat-head">
+      <div>
+        <p class="eyebrow">${GAMES.length} spellen voor 4 en 5 jaar</p>
+        <h1>Alle spellen</h1>
+      </div>
+      <div class="chips" role="group" aria-label="Filter">${chips}</div>
+      ${LEGEND}
+    </div>
+    ${list.length ? `<div class="grid">${cards}</div>` : `<p class="empty">Nog geen favorieten. Tik op het hartje bij een spel om het hier te bewaren.</p>`}`;
+}
+
+/* ---------- Bewaard ---------- */
+function renderSaved() {
+  const items = state.saved.map(t => `<li class="saved-item">
+      <div>
+        <h3>${esc(t.name)}</h3>
+        <p class="games">${SLOTS.map(s => esc(byId[t.slots[s.key]] ? byId[t.slots[s.key]].naam : '?')).join(' · ')}</p>
+      </div>
+      <div class="saved-actions">
+        <button class="mini" data-action="load" data-saved="${esc(t.id)}">${I.play}Openen</button>
+        <button class="mini" data-action="copy" data-saved="${esc(t.id)}">${I.copy}Kopieer</button>
+        <button class="mini" data-action="delete" data-saved="${esc(t.id)}">${I.x}Verwijderen</button>
+      </div>
+    </li>`).join('');
+  $('#tab-bewaard').innerHTML = `
+    <div class="cat-head">
+      <div>
+        <p class="eyebrow">Alleen op dit toestel</p>
+        <h1>Bewaarde trainingen</h1>
+      </div>
+    </div>
+    <div class="saved-grid">
+      <div>${state.saved.length ? `<ul class="saved-list">${items}</ul>` : `<p class="empty">Nog niets bewaard. Stel een training samen en tik op <strong>Bewaar training</strong>.</p>`}</div>
+      <form class="code-form plain-card" id="code-form">
+        <h2 style="font-size:19px;font-weight:800">Training van een andere ouder</h2>
+        <p class="note">Plak het bericht uit de app-groep, of alleen de code. De training komt dan op het tabblad Training.</p>
+        <label for="code-input" class="eyebrow">Bericht of code</label>
+        <textarea id="code-input" placeholder="piraten.slalom.reus.tunnel.piano.2tegen2.penalty"></textarea>
+        <p class="form-msg" id="code-msg" role="status"></p>
+        <button class="btn primary" type="submit">${I.play}Training laden</button>
+      </form>
+    </div>`;
+}
+
+/* ---------- Dialogen ---------- */
+const dlg = $('#dlg');
+function openDialog(html, label) {
+  $('#dlg-body').innerHTML = html;
+  dlg.setAttribute('aria-label', label || 'Details');
+  if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute('open', ''); } }
+  dlg.scrollTop = 0;
+}
+function closeDialog() { if (dlg.open) dlg.close(); }
+dlg.addEventListener('click', e => { if (e.target === dlg) closeDialog(); });
+
+function detailHTML(g) {
+  const fav = state.favs.has(g.id);
+  let place = '';
+  if (g.type === 'station') {
+    place = `<span class="lbl">Zet in training als</span>${STATIONS.map(k => `<button class="mini" data-action="place" data-id="${g.id}" data-slot="${k}" ${state.slots[k] === g.id ? 'aria-pressed="true"' : ''}>${SLOT[k].label}</button>`).join('')}`;
+  } else {
+    const key = SLOTS.find(s => s.type === g.type).key;
+    place = `<button class="mini" data-action="place" data-id="${g.id}" data-slot="${key}" ${state.slots[key] === g.id ? 'aria-pressed="true"' : ''}>${state.slots[key] === g.id ? 'Staat in de training' : 'Zet in training'}</button>`;
+  }
+  return `<div class="dlg">
+    <div class="dlg-head">
+      <div><p class="eyebrow">${TYPES[g.type]} · ${SKILLS[g.skill]} · ${g.duur} min</p><h2>${esc(g.naam)}</h2></div>
+      <button class="icon-btn" data-action="close" aria-label="Sluiten">${I.x}</button>
+    </div>
+    <div>${sketch(g)}${LEGEND}</div>
+    <ul class="facts"><li><span class="k">Wie</span><span>${esc(g.groep)}</span></li><li><span class="k">Nodig</span><span>${esc(g.materiaal.join(', '))}</span></li></ul>
+    <div><h3>Zeg tegen de kinderen</h3><blockquote class="story">${esc(g.verhaal)}</blockquote></div>
+    <div><h3>Neerzetten</h3><p>${esc(g.opzet)}</p></div>
+    <div><h3>Zo gaat het</h3><ol>${g.verloop.map(v => `<li>${esc(v)}</li>`).join('')}</ol></div>
+    <div class="vary"><div><h4>Makkelijker</h4><p>${esc(g.makkelijker)}</p></div><div><h4>Moeilijker</h4><p>${esc(g.moeilijker)}</p></div></div>
+    <p class="tip"><strong>Tip.</strong> ${esc(g.tip)}</p>
+    <div class="dlg-actions">
+      <button class="mini" data-action="fav" data-id="${g.id}" aria-pressed="${fav}">${fav ? I.heartFill : I.heart}${fav ? 'Favoriet' : 'Favoriet maken'}</button>
+      ${place}
+    </div>
+  </div>`;
+}
+function pickerHTML(key) {
+  const s = SLOT[key];
+  const list = GAMES.filter(g => g.type === s.type);
+  const others = Object.entries(state.slots).filter(([k]) => k !== key).map(([, v]) => v);
+  return `<div class="dlg">
+    <div class="dlg-head">
+      <div><p class="eyebrow">Kies zelf</p><h2>${esc(s.label)}</h2></div>
+      <button class="icon-btn" data-action="close" aria-label="Sluiten">${I.x}</button>
+    </div>
+    <ul class="pick-list">${list.map(g => {
+      const inUse = others.includes(g.id);
+      return `<li><button class="pick-item" data-action="choose" data-slot="${key}" data-id="${g.id}" aria-current="${state.slots[key] === g.id}">
+        ${sketch(g)}
+        <span><strong>${esc(g.naam)}</strong><span>${SKILLS[g.skill]}${inUse ? ' · staat al bij een ander station (wordt gewisseld)' : ''}${state.favs.has(g.id) ? ' · favoriet' : ''}</span></span>
+      </button></li>`;
+    }).join('')}</ul>
+  </div>`;
+}
+
+/* ---------- Delen ---------- */
+function trainingText(slots, start) {
+  slots = slots || state.slots; start = start || state.start;
+  const t = keyTimes();
+  const n = k => byId[slots[k]].naam;
+  return [
+    `Kaboutertraining · start ${start}`,
+    '',
+    `${clock(start, t.intro)} Binnenkomst: vrij spelen, ouders zetten de stations klaar`,
+    `${clock(start, t.warmup)} Warming-up: ${n('warmup')}`,
+    `${clock(start, t.stations)} Stations (4 groepjes, 6 min per station, drinkpauze na ronde 2)`,
+    ...STATIONS.map(k => `   ${SLOT[k].letter}. ${n(k)} (${SKILLS[byId[slots[k]].skill].toLowerCase()})`),
+    `${clock(start, t.partij)} Partijtjes: ${n('partij')}`,
+    `${clock(start, t.afsluiter)} Afsluiter: ${n('afsluiter')}`,
+    `${clock(start, t.end)} Einde`,
+    '',
+    `Code voor Kabouterveld: ${code(slots)}`
+  ].join('\n');
+}
+function parseCode(text) {
+  const m = String(text || '').toLowerCase().match(/[a-z0-9]+(?:\.[a-z0-9]+){6}/);
+  if (!m) return { error: 'Geen code gevonden. Een code bestaat uit 7 spelnamen met punten ertussen.' };
+  const ids = m[0].split('.');
+  const slots = {};
+  for (let i = 0; i < SLOTS.length; i++) {
+    const g = byId[ids[i]];
+    if (!g || g.type !== SLOTS[i].type) return { error: `"${ids[i]}" ken ik niet op deze plek. Controleer of de hele code is meegekopieerd.` };
+    slots[SLOTS[i].key] = g.id;
+  }
+  if (new Set(STATIONS.map(k => slots[k])).size !== 4) return { error: 'In deze code staat een station dubbel.' };
+  return { slots };
+}
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast('Gekopieerd. Plak het in de app-groep.');
+  } catch (e) {
+    openDialog(`<div class="dlg">
+      <div class="dlg-head"><div><p class="eyebrow">Kopiëren lukte niet automatisch</p><h2>Selecteer en kopieer</h2></div><button class="icon-btn" data-action="close" aria-label="Sluiten">${I.x}</button></div>
+      <textarea class="copy-area" id="copy-area" readonly>${esc(text)}</textarea>
+    </div>`, 'Tekst kopiëren');
+    const ta = $('#copy-area'); ta.focus(); ta.select();
+  }
+}
+
+/* ---------- Toast ---------- */
+let toastTimer;
+function toast(msg) {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+/* ---------- Trainingskaarten ---------- */
+function renderSheet() {
+  const sc = schedule(), st = state.start;
+  const rows = sc.map(b => {
+    let what = b.title;
+    if (b.kind === 'game') what += `: ${game(b.slot).naam}`;
+    return `<tr><td>${clock(st, b.at)}</td><td>${esc(what)}</td></tr>`;
+  }).join('');
+  const card = key => {
+    const g = game(key), s = SLOT[key];
+    return `<article class="pcard">
+      <p class="eyebrow">${esc(s.label)} · ${SKILLS[g.skill]} · ${g.duur} min</p>
+      <h2>${esc(g.naam)}</h2>
+      ${sketch(g)}
+      <p><strong>Nodig:</strong> ${esc(g.materiaal.join(', '))}</p>
+      <p><strong>Neerzetten:</strong> ${esc(g.opzet)}</p>
+      <blockquote class="story">${esc(g.verhaal)}</blockquote>
+      <ol>${g.verloop.map(v => `<li>${esc(v)}</li>`).join('')}</ol>
+      <p><strong>Makkelijker:</strong> ${esc(g.makkelijker)} <strong>Moeilijker:</strong> ${esc(g.moeilijker)}</p>
+    </article>`;
+  };
+  $('#sheet').innerHTML = `
+    <div class="sheet-bar">
+      <button class="btn" data-action="close-sheet">${I.x}Sluiten</button>
+      ${framed ? '' : `<button class="btn primary" data-action="print">Printen</button>`}
+      ${framed ? `<p class="hint">Printen kan niet vanuit deze link. Maak een schermafbeelding van een kaart en stuur die naar de ouder van dat station.</p>` : ''}
+    </div>
+    <div class="sheet-page">
+      <header>
+        <p class="eyebrow">Kabouterveld · start ${esc(st)}</p>
+        <h1>Trainingskaarten</h1>
+      </header>
+      <table class="sched"><tbody>${rows}</tbody></table>
+      ${rotationTable()}
+      ${LEGEND}
+      <div class="pcards">${SLOTS.map(s => card(s.key)).join('')}</div>
+    </div>`;
+}
+
+/* ---------- Timer ---------- */
+const T = { blocks: [], idx: 0, endAt: 0, remaining: 0, running: false, warned: false, iv: null, muted: store.get('muted', false), done: false };
+let actx = null, wakeLock = null;
+function ensureAudio() {
+  try {
+    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
+  } catch (e) { actx = null; }
+}
+function tone(at, dur, freq) {
+  const o = actx.createOscillator(), g = actx.createGain(), lfo = actx.createOscillator(), lg = actx.createGain();
+  o.type = 'sine'; o.frequency.value = freq;
+  lfo.frequency.value = 30; lg.gain.value = 140;
+  lfo.connect(lg); lg.connect(o.frequency);
+  g.gain.setValueAtTime(0.0001, at);
+  g.gain.exponentialRampToValueAtTime(0.32, at + 0.02);
+  g.gain.setValueAtTime(0.32, at + dur - 0.04);
+  g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+  o.connect(g); g.connect(actx.destination);
+  o.start(at); lfo.start(at); o.stop(at + dur + 0.02); lfo.stop(at + dur + 0.02);
+}
+function whistle(kind) {
+  if (T.muted || !actx) return;
+  try {
+    const t = actx.currentTime + 0.03;
+    if (kind === 'warn') tone(t, 0.16, 1900);
+    else { tone(t, 0.18, 2700); tone(t + 0.28, 0.18, 2700); tone(t + 0.56, 0.7, 2700); }
+  } catch (e) { /* geluid niet beschikbaar */ }
+  if (kind !== 'warn') { try { navigator.vibrate && navigator.vibrate([250, 120, 250]); } catch (e) { /* geen trillen */ } }
+}
+async function keepAwake() {
+  try { if ('wakeLock' in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } } catch (e) { wakeLock = null; }
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !$('#timer').hidden) keepAwake(); });
+
+function openTimer() {
+  ensureAudio();
+  T.blocks = schedule(); T.done = false;
+  setBlock(0, true);
+  $('#timer').hidden = false;
+  document.documentElement.style.overflow = 'hidden';
+  keepAwake();
+  clearInterval(T.iv); T.iv = setInterval(tick, 250);
+}
+function closeTimer() {
+  clearInterval(T.iv); T.iv = null; T.running = false;
+  $('#timer').hidden = true;
+  document.documentElement.style.overflow = '';
+  try { wakeLock && wakeLock.release(); } catch (e) { /* al vrijgegeven */ }
+  wakeLock = null;
+}
+function setBlock(i, run) {
+  T.idx = Math.max(0, Math.min(i, T.blocks.length - 1));
+  T.remaining = T.blocks[T.idx].min * 60000;
+  T.warned = false; T.done = false;
+  T.running = run;
+  T.endAt = Date.now() + T.remaining;
+  renderTimer();
+}
+function tick() {
+  if (!T.running) return;
+  T.remaining = T.endAt - Date.now();
+  const b = T.blocks[T.idx];
+  if (!T.warned && b.min >= 3 && T.remaining <= 30000) { T.warned = true; whistle('warn'); }
+  if (T.remaining <= 0) {
+    whistle('end');
+    if (T.idx < T.blocks.length - 1) { setBlock(T.idx + 1, true); return; }
+    T.running = false; T.remaining = 0; T.done = true; renderTimer(); return;
+  }
+  updateClock();
+}
+function fmt(ms) {
+  const s = Math.max(0, Math.ceil(ms / 1000));
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+}
+function updateClock() {
+  const b = T.blocks[T.idx];
+  const c = $('#t-clock'); if (!c) return;
+  c.textContent = fmt(T.remaining);
+  c.classList.toggle('warn', T.remaining <= 30000 && !T.done);
+  c.classList.toggle('paused', !T.running && !T.done);
+  const done = 1 - T.remaining / (b.min * 60000);
+  $('#t-bar').style.width = Math.max(0, Math.min(100, done * 100)) + '%';
+}
+function groupList(round) {
+  return `<ul class="t-groups">${[0, 1, 2, 3].map(g => {
+    const k = stationFor(g, round);
+    return `<li><b>Groep ${g + 1}</b><span class="letter">${SLOT[k].letter}</span><span>${esc(game(k).naam)}</span></li>`;
+  }).join('')}</ul>`;
+}
+function renderTimer() {
+  const b = T.blocks[T.idx], next = T.blocks[T.idx + 1], st = state.start;
+  let kicker = b.title, title = '', body = '';
+  if (T.done) {
+    kicker = 'Klaar'; title = 'Training klaar!';
+    body = '<p class="t-story">High five voor iedereen. Ballen en pionnen in de tas.</p>';
+  } else if (b.kind === 'intro') {
+    title = 'Vrij spelen';
+    body = `<p class="t-story">Iedereen een bal, vrij spelen. Ouders zetten nu de stations klaar:</p><ul class="t-groups">${STATIONS.map(k => `<li><b>${SLOT[k].label}</b><span class="letter">${SLOT[k].letter}</span><span>${esc(game(k).naam)}</span></li>`).join('')}</ul>`;
+  } else if (b.kind === 'game') {
+    const g = game(b.slot);
+    title = g.naam;
+    body = `<p class="t-story">“${esc(g.verhaal)}”</p><button class="t-link" data-action="detail" data-id="${g.id}">Uitleg bekijken</button>`;
+  } else if (b.kind === 'round') {
+    title = 'Elk groepje bij zijn station';
+    body = groupList(b.round);
+  } else if (b.kind === 'switch') {
+    title = 'Wisselen!';
+    body = `<p class="t-story">Elk groepje schuift door naar het volgende station.</p>${groupList(b.round)}`;
+  } else if (b.kind === 'break') {
+    title = 'Drinken!';
+    body = `<p class="t-story">Iedereen even drinken en plassen. Daarna verder bij het volgende station.</p>${groupList(b.round)}`;
+  } else if (b.kind === 'toGame') {
+    title = 'Naar de partijtjes';
+    body = `<p class="t-story">Stations opruimen of laten staan, veldjes klaarzetten, hesjes uitdelen.</p>`;
+  }
+  const nextLine = T.done ? '' : next ? `Hierna om ${clock(st, next.at)}: ${esc(next.title)}${next.slot ? ' · ' + esc(game(next.slot).naam) : ''} (${next.min} min)` : `Einde om ${clock(st, b.at + b.min)}`;
+  $('#timer').innerHTML = `
+    <div class="t-top">
+      <span class="t-step">${T.done ? 'Klaar' : `${clock(st, b.at)} · stap ${T.idx + 1} van ${T.blocks.length}`}</span>
+      <button class="icon-btn" data-action="close-timer" aria-label="Timer sluiten">${I.x}</button>
+    </div>
+    <div class="t-main">
+      <p class="t-kicker">${esc(kicker)}</p>
+      <h2 class="t-title">${esc(title)}</h2>
+      <div class="t-clock" id="t-clock" aria-live="off">0:00</div>
+      <div class="t-bar"><i id="t-bar"></i></div>
+      ${body}
+      <p class="t-next">${nextLine}</p>
+    </div>
+    <div>
+      <div class="t-controls">
+        <button class="btn" data-action="t-prev" ${T.idx === 0 ? 'disabled' : ''}>${I.prev}Vorige</button>
+        <button class="btn go" data-action="t-toggle">${T.running ? I.pause + 'Pauze' : I.play + (T.done ? 'Opnieuw' : 'Verder')}</button>
+        <button class="btn" data-action="t-next" ${T.done ? 'disabled' : ''}>${I.next}${T.idx >= T.blocks.length - 1 ? 'Klaar' : 'Volgende'}</button>
+      </div>
+      <div class="t-sub">
+        <button class="mini" data-action="t-plus">+1 minuut</button>
+        <button class="mini" data-action="t-mute" aria-pressed="${T.muted}">${T.muted ? I.mute + 'Geluid uit' : I.sound + 'Geluid aan'}</button>
+        <button class="mini" data-action="t-test">Test fluitje</button>
+      </div>
+    </div>`;
+  updateClock();
+}
+
+/* ---------- Tabs & render ---------- */
+function setTab(tab) {
+  state.tab = tab; store.set('tab', tab);
+  for (const t of ['training', 'spellen', 'bewaard']) {
+    $('#tab-' + t).hidden = t !== tab;
+    $('#tab-btn-' + t).setAttribute('aria-selected', String(t === tab));
+  }
+  render();
+}
+function render() {
+  if (state.tab === 'training') renderTraining();
+  if (state.tab === 'spellen') renderCatalog();
+  if (state.tab === 'bewaard') renderSaved();
+}
+
+/* ---------- Acties ---------- */
+const pendingDelete = {};
+document.addEventListener('click', e => {
+  const tabBtn = e.target.closest('[data-tab]');
+  if (tabBtn) { setTab(tabBtn.dataset.tab); window.scrollTo(0, 0); return; }
+  const b = e.target.closest('[data-action]');
+  if (!b || b.disabled) return;
+  const { action, slot, id, saved } = b.dataset;
+  switch (action) {
+    case 'shuffle': shuffle(); persist(); render(); toast('Nieuwe training gehusseld'); break;
+    case 'reroll': fillSlot(slot, state.slots[slot]); persist(); render(); break;
+    case 'lock': state.locks[slot] = !state.locks[slot]; persist(); render(); break;
+    case 'pick': openDialog(pickerHTML(slot), 'Kies een spel'); break;
+    case 'choose': case 'place': {
+      const prevId = state.slots[slot];
+      const other = Object.keys(state.slots).find(k => k !== slot && state.slots[k] === id);
+      if (other) state.slots[other] = prevId; // wissel twee stations om
+      state.slots[slot] = id; state.locks[slot] = true;
+      persist(); closeDialog();
+      if (state.tab !== 'training') setTab('training'); else render();
+      toast(`${byId[id].naam} staat bij ${SLOT[slot].label}`);
+      break;
+    }
+    case 'detail': openDialog(detailHTML(byId[id]), byId[id].naam); break;
+    case 'close': closeDialog(); break;
+    case 'fav': {
+      state.favs.has(id) ? state.favs.delete(id) : state.favs.add(id);
+      store.set('favs', [...state.favs]);
+      if (dlg.open && $('#dlg-body .dlg-actions')) openDialog(detailHTML(byId[id]), byId[id].naam);
+      if (state.tab === 'spellen') renderCatalog();
+      break;
+    }
+    case 'filter': state.filter = b.dataset.filter; renderCatalog(); break;
+    case 'copy': {
+      const t = saved ? state.saved.find(x => x.id === saved) : null;
+      copyText(t ? trainingText(t.slots, t.start) : trainingText());
+      break;
+    }
+    case 'save': {
+      const d = new Date().toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
+      state.saved.unshift({ id: Date.now().toString(36), name: `${d} · ${game('warmup').naam}`, slots: { ...state.slots }, start: state.start });
+      store.set('saved', state.saved);
+      toast('Bewaard onder Bewaard');
+      break;
+    }
+    case 'load': {
+      const t = state.saved.find(x => x.id === saved);
+      if (t && validSlots(t.slots)) {
+        state.slots = { ...t.slots }; state.locks = Object.fromEntries(SLOTS.map(s => [s.key, true]));
+        if (t.start) state.start = t.start;
+        persist(); setTab('training'); toast('Training geopend. Alles staat vast.');
+      }
+      break;
+    }
+    case 'delete': {
+      if (pendingDelete[saved]) {
+        clearTimeout(pendingDelete[saved]); delete pendingDelete[saved];
+        state.saved = state.saved.filter(x => x.id !== saved);
+        store.set('saved', state.saved); renderSaved(); toast('Verwijderd');
+      } else {
+        b.innerHTML = `${I.x}Zeker weten?`;
+        pendingDelete[saved] = setTimeout(() => { delete pendingDelete[saved]; if (state.tab === 'bewaard') renderSaved(); }, 3500);
+      }
+      break;
+    }
+    case 'sheet': renderSheet(); $('#sheet').hidden = false; $('#sheet').scrollTop = 0; break;
+    case 'close-sheet': $('#sheet').hidden = true; break;
+    case 'print': try { window.print(); } catch (err) { /* printen niet beschikbaar */ } break;
+    case 'timer': openTimer(); break;
+    case 'close-timer': closeTimer(); break;
+    case 't-toggle':
+      ensureAudio();
+      if (T.done) { setBlock(0, true); break; }
+      if (T.running) { T.running = false; T.remaining = T.endAt - Date.now(); }
+      else { T.running = true; T.endAt = Date.now() + T.remaining; keepAwake(); }
+      renderTimer(); break;
+    case 't-next':
+      if (T.idx >= T.blocks.length - 1) { T.running = false; T.remaining = 0; T.done = true; renderTimer(); }
+      else setBlock(T.idx + 1, T.running);
+      break;
+    case 't-prev': setBlock(T.idx - 1, T.running); break;
+    case 't-plus':
+      if (T.running) T.endAt += 60000; else T.remaining += 60000;
+      if (T.running) T.remaining = T.endAt - Date.now();
+      T.blocks[T.idx].min += 1; T.warned = false; updateClock(); break;
+    case 't-mute': T.muted = !T.muted; store.set('muted', T.muted); renderTimer(); break;
+    case 't-test': ensureAudio(); { const m = T.muted; T.muted = false; whistle('end'); T.muted = m; } break;
+  }
+});
+document.addEventListener('change', e => {
+  if (e.target.id === 'start-time' && /^\d{2}:\d{2}$/.test(e.target.value)) {
+    state.start = e.target.value; persist(); renderTraining();
+  }
+});
+document.addEventListener('submit', e => {
+  if (e.target.id !== 'code-form') return;
+  e.preventDefault();
+  const msg = $('#code-msg');
+  const res = parseCode($('#code-input').value);
+  if (res.error) { msg.className = 'form-msg'; msg.textContent = res.error; return; }
+  const sm = $('#code-input').value.match(/start\s+(\d{1,2}:\d{2})/i);
+  if (sm) state.start = sm[1].padStart(5, '0');
+  state.slots = res.slots; state.locks = Object.fromEntries(SLOTS.map(s => [s.key, true]));
+  persist(); setTab('training'); window.scrollTo(0, 0); toast('Training geladen. Alles staat vast.');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !$('#timer').hidden && !dlg.open) closeTimer();
+  else if (e.key === 'Escape' && !$('#sheet').hidden && !dlg.open) $('#sheet').hidden = true;
+});
+
+setTab(state.tab);
+})();
+</script>
