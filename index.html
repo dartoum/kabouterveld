@@ -150,15 +150,6 @@ main { padding-block: 24px 64px; }
 .intro h1 { font-size: clamp(30px, 7vw, 46px); font-weight: 900; font-stretch: 108%; letter-spacing: -.02em; margin-top: 4px; }
 .lede { color: var(--muted); max-width: 58ch; margin-top: 8px; }
 .intro-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.start-field {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 4px 6px 4px 14px;
-  border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface);
-  font-family: var(--font-display); font-weight: 700; font-size: 15px;
-}
-.start-field input {
-  font: inherit; font-variant-numeric: tabular-nums; border: 0; background: var(--surface-2); color: var(--fg);
-  border-radius: 8px; padding: 6px 8px; min-height: 36px;
-}
 @media (min-width: 860px) {
   .intro { grid-template-columns: 1fr auto; align-items: end; }
 }
@@ -1106,12 +1097,10 @@ function renderTraining() {
   $('#tab-training').innerHTML = `
     <div class="intro">
       <div>
-        <p class="eyebrow">O6 · 4 en 5 jaar · ±20 kinderen · 4 groepjes</p>
         <h1>Training van vandaag</h1>
-        <p class="lede">Een uur voetbal met vier groepjes, elk met een ouder. Hussel tot je tevreden bent. Spellen die je zeker wilt doen, zet je vast.</p>
+        <p class="lede">Hussel tot je tevreden bent. Spellen die je zeker wilt doen, zet je vast.</p>
       </div>
       <div class="intro-actions">
-        <label class="start-field" for="start-time">Start <input type="time" id="start-time" value="${esc(st)}" step="300"></label>
         <button class="btn" data-action="shuffle">${I.dice}Hussel</button>
         <button class="btn primary" data-action="timer">${I.play}Start training</button>
       </div>
