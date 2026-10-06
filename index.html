@@ -449,84 +449,163 @@ dialog::backdrop { background: rgba(8, 14, 10, .55); }
 
 /* ---------- Spellen ---------- */
 const GAMES = [
-  // Warming-up: allemaal samen, ±10 min
+  // Tikspellen: allemaal samen, ±5 min, zonder bal
   {
-    id: 'piraten', naam: 'Piraten en schatten', type: 'warmup', skill: 'dribbelen', duur: 10, groep: 'Allemaal samen',
-    materiaal: ['bal per kind', '8 pionnen', 'hesjes voor de piraten'],
-    opzet: 'Zet met pionnen een groot vak uit (ongeveer 20 bij 20 passen). Maak in een hoek een klein schateiland van 4 pionnen.',
-    verhaal: 'Jullie bal is jullie schat! De piraten willen hem stelen. Hou je schat dicht bij je voeten en ren weg van de piraten.',
-    verloop: ['Alle kinderen dribbelen met hun bal in het vak.', 'Twee of drie ouders met een hesje zijn piraten en proberen rustig een bal af te pakken.', 'Bal kwijt? Haal hem terug bij het schateiland en doe meteen weer mee.', 'Na een paar minuten worden een paar kinderen piraat.'],
-    makkelijker: 'Piraten lopen op hun hurken of kruipen als zeehond.',
-    moeilijker: 'Meer piraten, of kinderen zijn piraat en moeten zelf ook een bal meenemen.',
-    tip: 'Laat de piraten bijna winnen. Overdreven balen als een kind ontsnapt werkt geweldig.',
-    schets: [['z',14,12,172,96],['z',152,84,30,20,'eiland'],['kb',40,34],['kb',72,58],['kb',112,30],['kb',128,72],['kb',56,88],['kb',98,90],['p',88,42],['p',150,44],['a',88,42,104,33],['a',150,44,134,64]]
-  },
-  {
-    id: 'haaien', naam: 'Haaien en visjes', type: 'warmup', skill: 'dribbelen', duur: 10, groep: 'Allemaal samen',
-    materiaal: ['bal per kind', '10 pionnen'],
+    id: 'haaien', naam: 'Haaien en visjes', type: 'warmup', skill: 'tik', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['10 pionnen', 'hesjes voor de haaien'],
     opzet: 'Zet een lang vak uit met aan beide kanten een strand (een strook van een paar passen). Het midden is de zee.',
     verhaal: 'Jullie zijn visjes en moeten naar het andere strand zwemmen. Pas op voor de haaien in de zee!',
-    verloop: ['De visjes staan met hun bal op één strand.', 'Een ouder roept "Visjes, zwem!" en iedereen dribbelt naar het andere strand.', 'De haaien (ouders) proberen een bal weg te tikken.', 'Bal weggetikt? Bal pakken, één rondje om een pion en je zwemt weer mee. Niemand ligt eruit.'],
-    makkelijker: 'Haaien mogen alleen hinkelen of kruipen.',
-    moeilijker: 'Kinderen die hun bal kwijt zijn, worden ook haai. Wissel na elke ronde.',
-    tip: 'Geen afvalspellen bij deze leeftijd: wie eruit ligt staat stil en verliest de zin.',
-    schets: [['z',6,10,30,100,'strand'],['z',164,10,30,100,'strand'],['t',100,20,'zee'],['kb',18,28],['kb',18,50],['kb',18,72],['kb',18,94],['p',92,47],['p',110,82],['a',30,28,150,34],['a',30,72,150,80],['a',92,47,82,34]]
+    verloop: ['De visjes staan op één strand.', 'Een ouder roept "Visjes, zwem!" en iedereen rent naar het andere strand.', 'De haaien (ouders, ze rennen rustig) proberen visjes te tikken.', 'Getikt? Ga even als zeester staan (armen en benen wijd), tel tot 3 en zwem verder. Niemand ligt eruit.'],
+    makkelijker: 'Haaien lopen op hun hurken of kruipen.',
+    moeilijker: 'Meer haaien, of een tikker mag een kind meenemen als haai.',
+    tip: 'Laat de haaien bijna winnen en overdreven balen als een visje ontsnapt.',
+    schets: [['z',6,10,30,100,'strand'],['z',164,10,30,100,'strand'],['t',100,20,'zee'],['k',18,28],['k',18,50],['k',18,72],['k',18,94],['p',92,47],['p',110,82],['a',30,28,150,34],['a',30,72,150,80],['a',92,47,82,34]]
   },
   {
-    id: 'stoplicht', naam: 'Stoplicht', type: 'warmup', skill: 'balgevoel', duur: 10, groep: 'Allemaal samen',
-    materiaal: ['bal per kind', '8 pionnen'],
-    opzet: 'Zet een groot vak uit met pionnen. Elk kind heeft een bal.',
-    verhaal: 'Jullie zijn auto’s en de bal is je auto. Luister goed naar het stoplicht!',
-    verloop: ['Groen: rijden (dribbelen) door het vak.', 'Oranje: heel langzaam rijden.', 'Rood: stoppen met je voet bovenop de bal.', 'Extra: "Toeter!" en iedereen roept TOET TOET. "Garage!" en je gaat op je bal zitten.'],
+    id: 'kikkers', naam: 'Reiger en kikkers', type: 'warmup', skill: 'tik', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['8 pionnen'],
+    opzet: 'Zet een groot vak uit met pionnen. Maak twee kleine vakjes: de lelieblaadjes, waar kikkers even mogen uitrusten.',
+    verhaal: 'Jullie zijn kikkers in de vijver. De reiger loopt rond en wil jullie vangen. Spring snel weg!',
+    verloop: ['De kinderen huppelen of springen als kikkers door het vak.', 'De reiger (een ouder, op lange stappen) loopt langzaam rond en probeert kikkers te tikken.', 'Getikt? Ga op je hurken zitten, kwaak drie keer en spring weer verder.', 'Op een lelieblad ben je veilig. Je mag even uitrusten.'],
+    makkelijker: 'De reiger loopt heel langzaam.',
+    moeilijker: 'Twee reigers, of de kikkers mogen alleen springen met twee voeten tegelijk.',
+    tip: 'De reiger loopt in plaats van rent. Zo kunnen ook de kleinste kikkers ontsnappen.',
+    schets: [['z',12,10,176,100],['z',24,18,34,26,'blad'],['z',138,72,34,26,'blad'],['k',74,40],['k',104,84],['k',62,76],['k',150,40],['k',120,60],['p',100,50],['a',74,40,88,50],['a',150,40,134,48],['t',100,108,'hup hup kwaak']]
+  },
+  {
+    id: 'staartjes', naam: 'Staartenjacht', type: 'warmup', skill: 'tik', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['hesjes (1 per ouder)'],
+    opzet: 'Elke ouder stopt een hesje half in de broek: de staart. Kinderen en ouders staan in een groot vak.',
+    verhaal: 'De ouders zijn dieren met een lange staart. Wie pakt de staart van een dier?',
+    verloop: ['De kinderen rennen naar een ouder en trekken de staart eruit.', 'De ouder roept "Au, mijn staart!" en rent een stukje weg.', 'Het kind brengt de staart terug, de ouder stopt hem weer in de broek en het spel gaat verder.', 'Na een paar minuten worden een paar kinderen dier.'],
+    makkelijker: 'Ouders staan stil en draaien zich langzaam om.',
+    moeilijker: 'Ouders rennen rustig weg. Kinderen mogen samenwerken.',
+    tip: 'Laat de kinderen af en toe winnen en daarna weer de staart terugbrengen. Dat vinden ze zelf grappig.',
+    schets: [['z',12,10,176,100],['p',100,50],['p',150,80],['p',50,34],['k',70,60],['k',120,34],['k',130,70],['k',44,80],['k',160,48],['a',70,60,58,44],['a',120,34,108,46],['a',130,70,144,76],['t',100,108,'staart = hesje']]
+  },
+  {
+    id: 'taxi', naam: 'Taxi’s en politie', type: 'warmup', skill: 'tik', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['6 pionnen', '1 hesje voor de politie'],
+    opzet: 'Zet een groot vak uit. In een hoek staat de garage: een klein vak van pionnen.',
+    verhaal: 'Jullie zijn taxi’s en rijden door de stad. De politie wil jullie aanhouden. Rij snel naar de garage!',
+    verloop: ['De kinderen rennen met hun armen als stuur rond en toeteren.', 'De politie (ouder) probeert een taxi te tikken.', 'Getikt? Ga naar de garage, doe drie keer "toet toet" en rij weer weg.', 'Roep tussendoor "Rood licht!" en iedereen staat stil.'],
+    makkelijker: 'De politie rent niet, maar loopt.',
+    moeilijker: 'Meerdere ouders zijn politie.',
+    tip: 'Hoe meer geluid hoe beter. Ouders mogen met een sirene meedoen.',
+    schets: [['z',12,10,176,100],['z',8,86,40,28,'garage'],['k',60,30],['k',90,60],['k',130,40],['k',150,78],['k',110,92],['p',100,36],['a',60,30,72,44,82,56],['a',150,78,120,92,80,100,56,100],['t',100,20,'toet toet']]
+  },
+  {
+    id: 'verkeerslicht', naam: 'Stoplicht', type: 'warmup', skill: 'tik', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['8 pionnen'],
+    opzet: 'Zet een groot vak uit met pionnen. De ouder staat voorop en is het stoplicht.',
+    verhaal: 'Jullie zijn auto’s. Luister goed naar het stoplicht!',
+    verloop: ['Groen (arm omhoog): rennen door het vak.', 'Oranje (arm half): heel langzaam rijden.', 'Rood (beide armen vooruit): stilstaan als een standbeeld.', 'Extra: "Toeter!" en iedereen roept TOET TOET.'],
     makkelijker: 'Alleen groen en rood.',
-    moeilijker: 'Laat een kind het stoplicht zijn, of stop met je andere voet op de bal.',
-    tip: 'Gebruik je armen als stoplicht. Dan snappen ook de kinderen die niet luisteren het.',
-    schets: [['z',12,10,176,100],['kb',40,32],['kb',78,26],['kb',134,34],['kb',52,80],['kb',104,88],['kb',156,76],['p',100,56],['t',100,44,'groen · oranje · rood'],['a',40,32,58,46],['a',134,34,152,50],['a',52,80,74,92],['a',156,76,142,94]]
+    moeilijker: 'Laat de kinderen kruipen, hinkelen of op de tenen lopen bij groen.',
+    tip: 'Gebruik je armen als licht, dan snappen ook kinderen die niet luisteren het.',
+    schets: [['z',12,10,176,100],['k',40,34],['k',74,50],['k',116,30],['k',150,60],['k',60,86],['k',130,90],['p',100,64],['t',100,22,'groen · oranje · rood'],['a',40,34,56,42],['a',150,60,166,70]]
+  },
+
+  // Bewegen: allemaal samen, ±5 min, vooral rennen, springen en met de bal in de handen
+  {
+    id: 'ridders', naam: 'Ridders en schilden', type: 'beweeg', skill: 'beweeg', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['bal per kind (in de handen)', '8 pionnen in 2 kleuren'],
+    opzet: 'Maak met pionnen twee kastelen (vakken van ongeveer 6 bij 6 passen), een met gele en een met blauwe pionnen, een flink stuk uit elkaar. Elk kind heeft een bal in de handen.',
+    verhaal: 'Jullie zijn ridders en de bal is jullie schild. Houd hem voor je en ren naar het kasteel dat ik roep!',
+    verloop: ['De ridders rennen met hun schild door de ruimte.', 'Een ouder roept "geel!" of "blauw!". Iedereen rent naar dat kasteel.', 'Daarna weer vrij rennen. Doe het een paar keer.', 'Extra: "Draak!" en iedereen hurkt achter zijn schild.'],
+    makkelijker: 'Wijs het kasteel ook aan.',
+    moeilijker: 'Roep het kasteel en een beweging: "Blauw, hinkelend!"',
+    tip: 'De bal mag in de handen: dat is juist de bedoeling. De bal hoeft nog niet aan de voet.',
+    schets: [['z',10,30,50,60,'geel'],['z',140,30,50,60,'blauw'],['c',10,30,'y'],['c',60,30,'y'],['c',10,90,'y'],['c',60,90,'y'],['c',140,30,'b'],['c',190,30,'b'],['c',140,90,'b'],['c',190,90,'b'],['kb',30,50],['kb',42,76],['kb',100,40],['kb',104,80],['p',90,60],['a',100,40,148,46],['a',104,80,148,76]]
   },
   {
-    id: 'dierentuin', naam: 'Dierentuin', type: 'warmup', skill: 'dribbelen', duur: 10, groep: 'Allemaal samen',
-    materiaal: ['bal per kind', '8 pionnen'],
-    opzet: 'Zet een groot vak uit. Elk kind heeft een bal.',
+    id: 'dieren', naam: 'Toverstokje: dieren', type: 'beweeg', skill: 'beweeg', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['geen'],
+    opzet: 'Een groot vak. De ouder is de tovenaar en heeft een denkbeeldig toverstokje.',
+    verhaal: 'De tovenaar tovert jullie om in dieren. Wat word je? Beweeg zoals dat dier!',
+    verloop: ['Aap: armen zwaaien en op de plek huppelen.', 'Olifant: grote stappen en een slurf.', 'Kikker: springen op twee voeten.', 'Slang: kruipend over de grond.', 'Vlinder: fladderen met je armen.', 'Laat kinderen zelf een dier bedenken.'],
+    makkelijker: 'Doe elk dier eerst voor en doe mee.',
+    moeilijker: 'Laat de dieren snel wisselen.',
+    tip: 'Laat een kind de volgende toverformule roepen. Ze vinden het geweldig om tovenaar te zijn.',
+    schets: [['z',12,10,176,100],['p',100,56],['k',44,36],['k',64,82],['k',140,32],['k',150,84],['k',104,24],['t',44,28,'aap'],['t',150,76,'slang'],['t',140,24,'kikker']]
+  },
+  {
+    id: 'beekje', naam: 'Beekje springen', type: 'beweeg', skill: 'beweeg', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['hesjes of touwtjes', 'pionnen'],
+    opzet: 'Leg hesjes neer als beekjes, steeds iets breder naast elkaar, en laat de kinderen in een rij of verspreid voor een beekje staan.',
+    verhaal: 'Jullie zijn kleine kikkers die over de beekjes springen. Past het over het brede beekje?',
+    verloop: ['De kinderen springen over het smalle beekje met twee voeten tegelijk.', 'Daarna over het volgende, dat iets breder is.', 'Land zacht met gebogen knieën, als een kat.', 'Heen en weer springen, zoveel ze willen.'],
+    makkelijker: 'Alleen smalle beekjes en zonder landen op twee voeten.',
+    moeilijker: 'Springen met de bal in de handen, of op één been landen.',
+    tip: 'Tel hardop hoeveel keer iemand springt, dan blijven ze langer doorgaan.',
+    schets: [['w',20,10,18,100],['w',70,10,28,100],['w',130,10,40,100],['k',10,30],['k',10,70],['k',52,50],['k',108,40],['k',148,72],['p',186,60],['a',12,32,46,32],['a',52,70,108,70],['t',100,112,'steeds breder']]
+  },
+  {
+    id: 'raket', naam: 'Raketten lanceren', type: 'beweeg', skill: 'beweeg', duur: 5, groep: 'Allemaal samen',
+    materiaal: ['4 pionnen'],
+    opzet: 'De kinderen staan verspreid in een vak. De ouder staat in het midden.',
+    verhaal: 'Jullie zijn raketten en gaan naar de maan. Eerst aftellen, dan lanceren!',
+    verloop: ['Iedereen hurkt: de raket staat klaar.', 'De ouder telt af: 5, 4, 3, 2, 1... lancering!', 'Iedereen springt omhoog met de armen boven het hoofd en landt zacht op twee voeten.', 'Daarna vliegen alle raketten rond door het vak en landen weer.'],
+    makkelijker: 'Alleen een kleine sprong.',
+    moeilijker: 'Spring en draai een kwartslag, of land als de maanlander op één been.',
+    tip: 'Laat de kinderen zelf aftellen. Het aftellen vinden ze meestal het leukst.',
+    schets: [['z',12,10,176,100],['p',100,60],['k',70,40],['k',130,40],['k',60,70],['k',140,72],['k',100,92],['k',100,28],['t',100,110,'5 · 4 · 3 · 2 · 1 · lancering!']]
+  },
+
+  // Stations: dribbelen (groepje van ±5 met één ouder, 6 min)
+  {
+    id: 'piraten', naam: 'Piraten en schatten', type: 'station', skill: 'dribbelen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '8 pionnen', 'hesje voor de piraat'],
+    opzet: 'Zet met pionnen een vak uit van ongeveer 10 bij 10 passen. Maak in een hoek een klein schateiland van 4 pionnen.',
+    verhaal: 'Jullie bal is jullie schat! De piraat wil hem stelen. Hou je schat dicht bij je voeten en ren weg van de piraat.',
+    verloop: ['De kinderen dribbelen met hun bal door het vak.', 'De ouder is de piraat en probeert rustig een bal af te pakken.', 'Bal kwijt? Haal hem terug bij het schateiland en doe meteen weer mee.', 'Na een tijdje wordt een kind de piraat, met een eigen bal in de hand.'],
+    makkelijker: 'De piraat loopt op zijn hurken of kruipt als zeehond.',
+    moeilijker: 'Twee piraten.',
+    tip: 'Laat de piraat bijna winnen. Overdreven balen als een kind ontsnapt werkt geweldig.',
+    schets: [['z',20,14,160,92],['z',140,78,36,22,'eiland'],['kb',46,36],['kb',84,60],['kb',120,34],['kb',56,84],['p',104,56],['a',104,56,118,44],['a',84,60,70,48]]
+  },
+  {
+    id: 'dierentuin', naam: 'Dierentuin', type: 'station', skill: 'dribbelen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '6 pionnen'],
+    opzet: 'Zet een vak uit. Elk kind heeft een bal.',
     verhaal: 'We gaan naar de dierentuin! Ik roep een dier en jullie dribbelen zoals dat dier.',
-    verloop: ['Olifant: grote stappen, stevig tegen de bal.', 'Muis: piepkleine tikjes, bal heel dichtbij.', 'Slang: slingeren tussen de andere kinderen door.', 'Kikker: stop de bal, ga op je hurken zitten en kwaak.', 'Laat de kinderen zelf ook dieren verzinnen.'],
+    verloop: ['Olifant: grote stappen, stevig tegen de bal.', 'Muis: piepkleine tikjes, bal heel dichtbij.', 'Slang: slingeren tussen de andere kinderen door.', 'Laat de kinderen zelf ook dieren verzinnen.'],
     makkelijker: 'Doe elk dier eerst zelf voor met een bal.',
     moeilijker: 'Wissel snel tussen de dieren.',
     tip: 'Kinderen verzinnen de gekste dieren. Ga erin mee, ook als het een dinosaurus wordt.',
     schets: [['z',12,10,176,100],['kb',38,30],['kb',96,26],['kb',150,36],['kb',60,76],['kb',122,86],['p',100,58],['a',38,30,60,40,44,54],['a',150,36,166,48,170,64],['a',60,76,78,66,96,76],['t',60,100,'muis'],['t',160,22,'olifant']]
   },
   {
-    id: 'rommelkamer', naam: 'Rommelkamer', type: 'warmup', skill: 'schieten', duur: 10, groep: 'Allemaal samen',
-    materiaal: ['alle ballen', '6 pionnen'],
-    opzet: 'Maak met een rij pionnen een middenlijn. Kinderen aan de ene kant, ouders aan de andere kant. Verdeel alle ballen over beide helften.',
-    verhaal: 'Jullie kamer is een rommeltje! Schop alle ballen naar de kamer van de ouders. Maar de ouders schoppen ze terug…',
-    verloop: ['Op "Opruimen!" schiet iedereen ballen naar de andere helft.', 'De ouders schieten rustig terug (en missen vaak).', 'Na een minuut: "Stop!" Samen tellen welke kamer het rommeligst is.', 'Speel 3 of 4 rondjes.'],
-    makkelijker: 'Ouders gooien met de hand terug, en langzaam.',
-    moeilijker: 'Alleen schieten met de voet die je minder gebruikt.',
-    tip: 'Laat de kinderen altijd net winnen.',
-    schets: [['cl',100,12,100,108,6],['k',40,32],['k',58,62],['k',36,92],['k',72,40],['p',150,36],['p',146,82],['b',62,26],['b',80,74],['b',132,52],['b',162,96],['b',122,20],['s',64,64,138,60],['s',140,84,74,92]]
+    id: 'stoplicht', naam: 'Stoplicht met de bal', type: 'station', skill: 'dribbelen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '6 pionnen'],
+    opzet: 'Zet een vak uit. Elk kind heeft een bal en de ouder is het stoplicht.',
+    verhaal: 'Jullie bal is jullie auto. Rij als het groen is en sta stil als het rood is!',
+    verloop: ['Groen: dribbelen door het vak.', 'Rood: voet op de bal en stil staan.', 'Oefen eerst alleen groen en rood.', 'Daarna eventueel oranje: heel langzaam dribbelen.'],
+    makkelijker: 'Alleen groen en rood, met armen als licht.',
+    moeilijker: 'Laat de kinderen met de andere voet stoppen.',
+    tip: 'Eén of twee regels per keer. Daarna is het te veel.',
+    schets: [['z',12,10,176,100],['kb',40,32],['kb',78,26],['kb',134,34],['kb',52,80],['kb',104,88],['p',100,56],['t',100,44,'groen · rood'],['a',40,32,58,46],['a',134,34,152,50],['a',52,80,74,92]]
   },
   {
-    id: 'kleuren', naam: 'Kleurenjacht', type: 'warmup', skill: 'dribbelen', duur: 10, groep: 'Allemaal samen',
-    materiaal: ['bal per kind', 'pionnen in 3 of 4 kleuren'],
-    opzet: 'Zet pionnen van verschillende kleuren verspreid in een groot vak.',
-    verhaal: 'Ik roep een kleur. Wie dribbelt het snelst naar een pion van die kleur?',
-    verloop: ['De kinderen dribbelen vrij rond.', 'Een ouder roept een kleur: iedereen dribbelt naar een pion van die kleur en zet de voet op de bal.', 'Extra opdrachten: "Rondje om geel!" of "Twee kleuren aantikken!"'],
-    makkelijker: 'Wijs de kleur ook aan.',
-    moeilijker: 'Roep een kleur én een lichaamsdeel: "Blauw, tik de pion aan met je knie!"',
-    tip: 'Ook goed om kleuren te oefenen. De jongste kinderen lopen gewoon achter een ander aan.',
-    schets: [['z',12,10,176,100],['c',40,28,'y'],['c',152,26,'b'],['c',98,94,'y'],['c',30,90,'b'],['c',170,92,'r'],['c',96,26,'r'],['kb',70,56],['kb',122,62],['kb',150,74],['kb',48,70],['p',100,50],['a',70,56,48,36],['a',122,62,146,34]]
+    id: 'tunnel', naam: 'Door de tunnel', type: 'station', skill: 'dribbelen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '1 pion'],
+    opzet: 'De ouder staat wijdbeens als een grote tunnel. Op ongeveer 8 passen daarachter staat een pion.',
+    verhaal: 'De ouder is een tunnel in de berg. Kun jij met je bal door de tunnel rijden?',
+    verloop: ['Het kind dribbelt naar de tunnel en schiet of rolt de bal tussen de benen van de ouder.', 'Het kind rent er zelf omheen en pakt zijn bal.', 'Dribbel daarna rond de pion en terug naar de rij.', 'Meerdere kinderen tegelijk kan, als er genoeg ruimte is.'],
+    makkelijker: 'De ouder maakt de tunnel groter, of de kinderen lopen er zelf door.',
+    moeilijker: 'De tunnel wordt steeds smaller.',
+    tip: 'Ouders mogen "Auw, een bal!" roepen als er een bal tussen hun benen gaat.',
+    schets: [['p',100,60],['c',164,60],['kb',30,40],['kb',30,80],['k',14,60],['a',40,60,92,60],['a',108,60,160,60],['t',100,44,'tunnel']]
   },
-
-  // Stations: groepje van ±5 met één ouder, 6 min
   {
     id: 'slalom', naam: 'Slalom door het bos', type: 'station', skill: 'dribbelen', duur: 6, groep: 'Groepje van ±5',
     materiaal: ['bal per kind', '10 pionnen', '2 kleine goals'],
-    opzet: 'Zet twee rijen van 5 pionnen naast elkaar (de bomen), met aan het eind van elke rij een klein goal.',
-    verhaal: 'Je bal moet door het bos naar huis. Slinger langs alle bomen en schiet hem in het huisje.',
-    verloop: ['Gebruik twee rijen tegelijk, zodat niemand lang hoeft te wachten.', 'Dribbel om de pionnen heen en schiet in het goal.', 'Bal pakken, langs de buitenkant terug en opnieuw.', 'Het volgende kind mag starten als de vorige bij de derde pion is.'],
-    makkelijker: 'Pionnen verder uit elkaar, of gewoon rechtdoor langs de pionnen.',
-    moeilijker: 'Pionnen dichter bij elkaar, of alleen met links.',
-    tip: 'Ga als ouder bij de goals staan en juich elke goal toe.',
+    opzet: 'Zet twee rijen van 5 pionnen naast elkaar (de bomen), met ruime tussenruimtes, en aan het eind van elke rij een klein goal.',
+    verhaal: 'Je bal moet door het bos naar huis. Slinger langs de bomen en schiet hem in het huisje.',
+    verloop: ['Gebruik twee rijen tegelijk, zodat niemand lang hoeft te wachten.', 'Dribbel langs de pionnen en schiet in het goal. Rond mag het.', 'Bal pakken, langs de buitenkant terug en opnieuw.', 'Het volgende kind mag starten als het vorige bij de derde pion is.'],
+    makkelijker: 'Pionnen ver uit elkaar, of gewoon rechtdoor langs de pionnen.',
+    moeilijker: 'Pionnen dichter bij elkaar.',
+    tip: 'Ga bij de goals staan en juich elke goal toe.',
     schets: [['cl',45,35,145,35,5],['cl',45,85,145,85,5],['g',182,35,'l'],['g',182,85,'l'],['kb',22,35],['kb',22,85],['k',10,54],['k',10,70],['p',168,60],['a',32,35,45,26,70,44,95,26,120,44,145,26,172,35],['a',32,85,45,94,70,76,95,94,120,76,145,94,172,85]]
   },
   {
@@ -536,7 +615,7 @@ const GAMES = [
     verhaal: 'Elk poortje is een tunnel. Door hoeveel tunnels kun jij rijden?',
     verloop: ['De kinderen dribbelen door zoveel mogelijk verschillende poortjes.', 'Ze tellen hardop: "Eén! Twee! Drie!"', 'Na een minuut even stoppen: hoeveel had iedereen? Daarna nog een keer.'],
     makkelijker: 'Maak de poortjes breder.',
-    moeilijker: 'Smallere poortjes, of na elk poortje een andere voet.',
+    moeilijker: 'Smallere poortjes.',
     tip: 'Tot 10 tellen vinden ze al heel knap. Tel mee.',
     schets: [['gt',40,30],['gt',98,24],['gt',154,36],['gt',62,86],['gt',118,82],['gt',168,92],['kb',22,56],['kb',82,54],['kb',134,58],['kb',96,104],['p',182,60],['a',22,50,40,30,60,20],['a',134,52,154,36,170,24],['a',82,62,118,82,140,90]]
   },
@@ -551,6 +630,8 @@ const GAMES = [
     tip: 'Grommen en happen maakt dit spel. Hoe gekker de krokodil, hoe beter.',
     schets: [['w',80,6,40,108],['z',6,10,50,100,'oever'],['z',144,10,50,100,'oever'],['t',100,18,'rivier'],['p',100,60],['kb',30,30],['kb',30,60],['kb',30,90],['kb',170,46],['kb',170,82],['a',40,30,140,26],['a',40,90,140,96],['a',160,46,60,52]]
   },
+
+  // Stations: schieten
   {
     id: 'kegelen', naam: 'Kegelen', type: 'station', skill: 'schieten', duur: 6, groep: 'Groepje van ±5',
     materiaal: ['bal per kind', '8 pionnen'],
@@ -558,18 +639,18 @@ const GAMES = [
     verhaal: 'Kun jij de kegels omschieten? Als alles omligt, zet de kegelkoning ze weer neer.',
     verloop: ['Alle kinderen schieten tegelijk vanaf de lijn.', 'Bal zelf terughalen en opnieuw schieten.', 'Alles om? De ouder (de kegelkoning) zet ze weer recht, kinderen helpen mee.'],
     makkelijker: 'Ga dichterbij staan.',
-    moeilijker: 'Verder weg, of schieten met de binnenkant van de voet.',
+    moeilijker: 'Verder weg.',
     tip: 'Leg een bal bovenop een pion: dat is een kasteel. Dat omschieten is nog leuker.',
     schets: [['ln',58,14,58,106],['cl',150,24,150,96,6],['kb',44,30],['kb',44,52],['kb',44,74],['kb',44,96],['k',24,62],['p',176,60],['s',56,32,144,31],['s',56,54,144,52],['s',56,76,144,74],['s',56,98,144,96]]
   },
   {
     id: 'reus', naam: 'Scoor bij de reus', type: 'station', skill: 'schieten', duur: 6, groep: 'Groepje van ±5',
     materiaal: ['bal per kind', 'grote goal', '2 pionnen'],
-    opzet: 'Een ouder staat in een groot goal. Twee pionnen ongeveer 8 passen voor het goal zijn de startplekken.',
+    opzet: 'Een ouder staat in een groot goal. Twee pionnen ongeveer 6 passen voor het goal zijn de startplekken.',
     verhaal: 'In het goal staat een reus. Hij is heel groot, maar ook heel traag. Kun jij langs hem scoren?',
     verloop: ['De kinderen dribbelen vanaf een pion naar het goal en schieten.', 'De reus duikt altijd net te laat of de verkeerde kant op.', 'Bal uit het goal halen en weer aansluiten bij een pion.', 'Met twee startpionnen wordt er snel achter elkaar geschoten.'],
     makkelijker: 'De reus houdt zijn handen op zijn rug.',
-    moeilijker: 'Schieten van verder weg, of eerst om een pion heen dribbelen.',
+    moeilijker: 'Schieten van verder weg.',
     tip: 'Hou ongeveer 1 op de 4 ballen tegen, met veel drama. Dan blijft het spannend.',
     schets: [['G',190,60,'l'],['p',180,60],['c',96,38],['c',96,82],['kb',84,38],['kb',84,82],['k',68,38],['k',68,82],['k',56,60],['a',104,38,140,48],['s',140,48,180,44],['a',104,82,140,72],['s',140,72,180,76]]
   },
@@ -580,43 +661,69 @@ const GAMES = [
     verhaal: 'Het monster heeft heel erge honger. Voer het zoveel mogelijk ballen!',
     verloop: ['De kinderen schieten hun bal van een paar passen afstand in het goal.', 'Het monster roept: "Meer! Ik heb nog honger!"', 'Liggen alle ballen erin? Dan moet het monster niezen en schopt alle ballen weer weg.', 'De kinderen halen de ballen en voeren het monster opnieuw.'],
     makkelijker: 'Dichterbij gaan staan.',
-    moeilijker: 'Het monster schuift het goal langzaam opzij, of alleen voeren met links.',
+    moeilijker: 'Het monster schuift het goal langzaam opzij.',
     tip: 'Monstergeluiden zijn verplicht.',
     schets: [['g',150,60,'l'],['p',170,60],['t',170,44,'monster'],['kb',100,24],['kb',86,44],['kb',82,68],['kb',96,94],['kb',112,60],['s',108,28,146,53],['s',94,47,146,57],['s',90,71,146,62],['s',104,96,146,66]]
   },
   {
-    id: 'tunnel', naam: 'Door de tunnel', type: 'station', skill: 'passen', duur: 6, groep: 'Groepje van ±5',
-    materiaal: ['3 ballen', '4 pionnen'],
-    opzet: 'Maak met twee pionnen een poortje. Twee kinderen staan aan weerszijden, een paar passen ervan af. De ouder staat wijdbeens als grote tunnel.',
-    verhaal: 'De bal is een treintje en moet door de tunnel naar het andere station.',
-    verloop: ['De kinderen passen in tweetallen door het poortje naar elkaar.', 'Bij de ouder: pass door de benen naar het kind aan de overkant.', 'Bal stoppen met je voet, en weer terug.', 'Elke minuut van plek wisselen.'],
-    makkelijker: 'Rol de bal met de hand.',
-    moeilijker: 'Maak het poortje smaller, of ga verder uit elkaar staan.',
-    tip: 'Roep na elke goede pass: "Tuuut tuuut!"',
-    schets: [['gt',100,24],['k',40,24],['k',160,24],['b',48,26],['s',48,24,150,24],['p',100,60],['k',40,60],['k',160,60],['b',48,62],['s',48,60,150,60],['gt',100,96],['k',40,96],['k',160,96],['b',152,98],['s',152,96,50,96]]
+    id: 'raaktrainer', naam: 'Raak de trainer', type: 'station', skill: 'schieten', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '4 pionnen'],
+    opzet: 'Zet een vak uit van ongeveer 12 bij 8 passen. De ouder loopt rustig rond in het vak, de kinderen dribbelen met hun bal erin.',
+    verhaal: 'De trainer is een rennende pinguïn. Kun jij hem in zijn voeten raken met je bal?',
+    verloop: ['De kinderen dribbelen rond en schieten op de benen van de ouder als die dichtbij is.', 'Raak? De ouder roept "Au, mijn voeten!" en springt op één been.', 'De kinderen halen hun bal en gaan verder.', 'Laat de ouder steeds iets sneller rondlopen.'],
+    makkelijker: 'De ouder staat stil.',
+    moeilijker: 'Vanaf verder schieten.',
+    tip: 'Spreek vooraf af: laag schieten en alleen op de benen. De ouder draagt geen bril of horloge.',
+    schets: [['z',30,14,140,92],['p',100,58],['kb',52,34],['kb',74,86],['kb',146,34],['kb',150,82],['s',58,38,92,54],['s',146,80,108,64],['t',100,110,'laag op de benen']]
+  },
+
+  // Stations: met de handen
+  {
+    id: 'stuiter', naam: 'Stuiter en vang', type: 'station', skill: 'handen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind'],
+    opzet: 'Elk kind heeft een bal en een eigen plekje, flink uit elkaar. De ouder staat in het midden.',
+    verhaal: 'De bal is een stuiterbal. Gooi hem in de lucht en vang hem weer op!',
+    verloop: ['Gooi de bal omhoog en vang hem met twee handen.', 'Daarna: gooi de bal omhoog, laat hem één keer stuiteren en vang hem.', 'Gooi de bal onder je been of draai een rondje voor je vangt.', 'Tel hardop hoe vaak het lukt.'],
+    makkelijker: 'Laat de bal vanaf heupniveau vallen en vang hem na de stuit.',
+    moeilijker: 'Klap in je handen voor je vangt.',
+    tip: 'Kinderen van 4 jaar kunnen vaak nog niet vangen. Rollen en oprapen telt ook mee.',
+    schets: [['z',20,14,160,92],['k',44,40],['k',84,34],['k',124,40],['k',60,84],['k',112,84],['p',160,60],['b',44,28],['b',84,22],['b',124,28],['b',60,72],['b',112,72],['t',100,108,'gooi · stuiter · vang']]
   },
   {
-    id: 'deksel', naam: 'Deksel erop', type: 'station', skill: 'passen', duur: 6, groep: 'Groepje van ±5',
-    materiaal: ['2 of 3 ballen'],
-    opzet: 'De ouder staat in het midden, de kinderen in een halve cirkel eromheen op 3 à 4 passen.',
-    verhaal: 'De bal is een pan soep die overkookt. Snel de deksel erop: zet je voet bovenop de bal!',
-    verloop: ['De ouder rolt de bal naar een kind.', 'Het kind stopt de bal met de voetzool: deksel erop!', 'Daarna passt het kind de bal terug.', 'Snel door naar de volgende, zodat iedereen vaak aan de beurt is.'],
-    makkelijker: 'Langzaam rollen, korte afstand.',
-    moeilijker: 'Stoppen met links, of de ouder rolt met een boogje.',
-    tip: 'Werk met twee ballen tegelijk, dan wacht er nooit iemand.',
-    schets: [['p',100,96],['k',46,56],['k',70,32],['k',100,24],['k',130,32],['k',154,56],['b',76,38],['b',148,62],['s',98,88,78,44],['s',104,90,146,66],['t',100,114,'rollen · stoppen · terug']]
+    id: 'eieren', naam: 'Eieren naar het nest', type: 'station', skill: 'handen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['8 ballen', '8 pionnen'],
+    opzet: 'Maak aan elke kant een nest van vier pionnen, ongeveer 10 passen uit elkaar. In het ene nest liggen alle ballen (de eieren).',
+    verhaal: 'De eieren moeten naar een veilig nest. Draag ze voorzichtig met twee handen, anders breken ze!',
+    verloop: ['Elk kind haalt een ei uit het volle nest.', 'Draag het met twee handen naar het andere nest en leg het er zachtjes neer.', 'Als alle eieren verhuisd zijn, verhuizen ze weer terug.', 'Valt een ei? Oprapen en gewoon doorlopen.'],
+    makkelijker: 'Minder afstand.',
+    moeilijker: 'De ouder is een slapende draak. Als hij zijn ogen opendoet, stoppen alle kinderen.',
+    tip: 'Vragen aan de kinderen: "Hoeveel eieren liggen er al?" Zo leren ze tellen.',
+    schets: [['z',8,24,44,72,'nest'],['z',148,24,44,72,'nest'],['b',22,44],['b',34,56],['b',24,70],['b',38,80],['k',100,38],['k',100,82],['p',100,60],['a',52,44,146,44],['a',52,82,146,82]]
   },
   {
-    id: 'postbode', naam: 'Postbode', type: 'station', skill: 'passen', duur: 6, groep: 'Groepje van ±5',
-    materiaal: ['bal per kind', '4 kleine goals of 4 poortjes', 'pionnen in 4 kleuren'],
-    opzet: 'Zet 4 kleine goals of poortjes (de huizen) in een vierkant, elk met een gekleurde pion ernaast.',
-    verhaal: 'Jullie zijn postbodes. Breng de brief (de bal) naar het huis dat ik roep!',
-    verloop: ['De kinderen dribbelen in het midden: het postkantoor.', 'De ouder roept een kleur: dribbel naar dat huis en pass de bal door de deur.', 'Bal ophalen en terug naar het postkantoor.'],
-    makkelijker: 'Iedereen mag zelf een huis kiezen.',
-    moeilijker: 'Passen vanaf een pion op afstand, niet vlak voor het goal.',
-    tip: 'Laat een kind de kleur roepen voor een ander kind.',
-    schets: [['g',100,10,'b'],['g',100,110,'t'],['g',10,60,'r'],['g',190,60,'l'],['c',118,12,'y'],['c',118,108,'b'],['c',12,42,'r'],['c',188,42,'o'],['kb',90,54],['kb',112,66],['kb',100,42],['kb',84,74],['p',124,48],['a',112,66,166,62],['s',166,62,186,60],['a',90,54,34,58]]
+    id: 'bowlen', naam: 'Bowlen met de bal', type: 'station', skill: 'handen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind', '8 pionnen'],
+    opzet: 'Zet 6 pionnen op een rij (de kegels). Leg 3 à 4 passen ervoor een lijn waar de kinderen vandaan rollen.',
+    verhaal: 'Jullie zijn bowlingspelers. Rol de bal over de grond en gooi zoveel mogelijk kegels om.',
+    verloop: ['Alle kinderen rollen tegelijk hun bal met twee handen naar de pionnen.', 'Bal terughalen en opnieuw.', 'Alles om? Pionnen weer neerzetten, de kinderen helpen.'],
+    makkelijker: 'Ga dichterbij staan.',
+    moeilijker: 'Rol met één hand.',
+    tip: 'Dit is de voorbereiding op schieten: rollen leren ze eerder dan schoppen.',
+    schets: [['ln',58,14,58,106],['cl',150,24,150,96,6],['kb',44,30],['kb',44,52],['kb',44,74],['kb',44,96],['k',24,62],['p',176,60],['a',56,32,144,31],['a',56,54,144,52],['a',56,76,144,74],['a',56,98,144,96]]
   },
+  {
+    id: 'brug', naam: 'Brug en tunnel', type: 'station', skill: 'handen', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['bal per kind'],
+    opzet: 'De ouder staat op handen en voeten: een brug. Kinderen staan aan beide kanten.',
+    verhaal: 'De ouder is een brug. Rol je bal onder de brug door, of kruip er zelf onderdoor!',
+    verloop: ['Kinderen rollen hun bal onder de brug door naar de overkant.', 'Daarna kruipen ze er zelf onderdoor en pakken de bal.', 'Wissel af: bal eerst, daarna zelf.', 'Een kind mag de nieuwe brug worden.'],
+    makkelijker: 'De brug is groter, bijvoorbeeld twee ouders.',
+    moeilijker: 'Rollen met één hand.',
+    tip: 'Een brug die af en toe "instort" geeft een hoop plezier. Laat de brug zakken als iemand eronder kruipt.',
+    schets: [['p',100,60],['t',100,44,'brug'],['k',36,40],['k',36,80],['k',160,40],['k',160,80],['b',50,42],['b',50,82],['a',54,42,92,58],['a',54,82,92,62],['a',108,58,148,44]]
+  },
+
+  // Stations: balgevoel
   {
     id: 'piano', naam: 'Piano spelen', type: 'station', skill: 'balgevoel', duur: 6, groep: 'Groepje van ±5',
     materiaal: ['bal per kind'],
@@ -624,7 +731,7 @@ const GAMES = [
     verhaal: 'De bal is een piano. Met je voetzool tik je op de toetsen: tik, tak, tik, tak!',
     verloop: ['Om en om met links en rechts boven op de bal tikken.', 'Daarna de bal heen en weer tussen je voeten.', 'Een rondje om je bal lopen terwijl je hem aantikt.', 'Zing er een liedje bij, dat helpt.'],
     makkelijker: 'Langzaam tellen, of een hand vasthouden voor je evenwicht.',
-    moeilijker: 'Sneller, of tikken en dan omdraaien.',
+    moeilijker: 'Sneller.',
     tip: 'Hou elke opdracht kort, 30 tot 45 seconden, en wissel dan.',
     schets: [['k',40,66],['k',70,66],['k',100,66],['k',130,66],['k',160,66],['b',40,56],['b',70,56],['b',100,56],['b',130,56],['b',160,56],['p',100,102],['t',100,30,'tik · tak · tik · tak']]
   },
@@ -635,66 +742,77 @@ const GAMES = [
     verhaal: 'Je bal is je hondje. Hij mag niet weglopen, dus hou hem heel dicht bij je voeten!',
     verloop: ['De kinderen laten hun hondje uit door het vak.', '"Zit!": voet op de bal.', '"Draai om!": met de bal de andere kant op.', '"Aaien!": hurk en aai je bal, daarna verder.'],
     makkelijker: 'Maak het vak groter.',
-    moeilijker: 'Maak het vak kleiner, of dribbel met de buitenkant van je voet.',
+    moeilijker: 'Maak het vak kleiner.',
     tip: 'Vraag hoe hun hondje heet. Dan zijn ze er meteen bij.',
     schets: [['c',30,15],['c',170,15],['c',30,105],['c',170,105],['z',30,15,140,90],['kb',62,40],['kb',112,34],['kb',140,72],['kb',80,80],['kb',118,92],['p',14,60],['a',62,40,76,30,90,38],['a',140,72,152,56,138,48],['a',80,80,66,92,52,82]]
   },
   {
     id: 'ruilen', naam: 'Ballen ruilen', type: 'station', skill: 'balgevoel', duur: 6, groep: 'Groepje van ±5',
     materiaal: ['bal per kind', '4 pionnen'],
-    opzet: 'Zet een klein vak uit. Elk kind heeft een bal.',
-    verhaal: 'Op mijn fluit laat iedereen zijn bal liggen en zoek je zo snel mogelijk een andere bal!',
-    verloop: ['Dribbelen in het vak.', 'Bij een fluitsignaal (of "Ruilen!") laat je je bal liggen en pak je een andere.', 'De ouder pakt stiekem ook een bal, zodat er één te weinig is. Wie heeft er geen?', 'Niemand ligt eruit: wie geen bal heeft, mag bij de volgende ronde fluiten.'],
-    makkelijker: 'Zorg dat er genoeg ballen zijn voor iedereen.',
+    opzet: 'Zet een klein vak uit. Elk kind heeft een bal en er zijn precies genoeg ballen.',
+    verhaal: 'Op mijn fluit laat iedereen zijn bal liggen en zoek je een andere bal!',
+    verloop: ['Dribbelen in het vak.', 'Bij een fluitsignaal (of "Ruilen!") laat je je bal liggen en pak je een andere bal en dribbel je verder.', 'Doe het een paar keer.'],
+    makkelijker: 'Roep de ruil een stukje van tevoren aan: "Straks gaan we ruilen!"',
     moeilijker: 'Na het ruilen eerst een rondje om een pion.',
     tip: 'Gebruik een fluitje als je er een hebt. Kinderen vinden dat geweldig.',
     schets: [['z',30,15,140,90],['k',60,40],['b',76,48],['k',110,34],['b',100,60],['k',142,76],['b',150,40],['k',80,86],['b',130,92],['k',52,72],['b',56,28],['p',14,60],['a',60,40,72,46],['a',110,34,102,54],['a',142,76,148,48]]
   },
+  {
+    id: 'deksel', naam: 'Deksel erop', type: 'station', skill: 'balgevoel', duur: 6, groep: 'Groepje van ±5',
+    materiaal: ['2 of 3 ballen'],
+    opzet: 'De ouder staat in het midden, de kinderen in een halve cirkel eromheen op 2 à 3 passen.',
+    verhaal: 'De bal is een pan soep die overkookt. Snel de deksel erop: zet je voet bovenop de bal!',
+    verloop: ['De ouder rolt de bal langzaam naar een kind.', 'Het kind zet zijn voetzool boven op de bal: deksel erop!', 'Daarna pakt het kind de bal met de handen en rolt hem terug.', 'Snel door naar de volgende, zodat iedereen vaak aan de beurt is.'],
+    makkelijker: 'Rol de bal heel langzaam en van dichtbij.',
+    moeilijker: 'Rol de bal iets sneller.',
+    tip: 'Werk met twee ballen tegelijk, dan wacht er nooit iemand. Lukt het niet? Lach mee, de soep kookt gewoon over.',
+    schets: [['p',100,96],['k',46,56],['k',70,32],['k',100,24],['k',130,32],['k',154,56],['b',76,38],['b',148,62],['s',98,88,78,44],['s',104,90,146,66],['t',100,114,'rollen · stoppen · terug']]
+  },
 
-  // Partijtjes: per veldje 4–8 kinderen, 12 min
+  // Partijtjes: per veldje 4–5 kinderen, 12 min (3 rondes van 4 minuten, teams husselen)
   {
     id: '2tegen2', naam: '2 tegen 2', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 4–5 kinderen',
     materiaal: ['2 kleine goals per veldje', 'hesjes', 'reserveballen'],
-    opzet: 'Maak 4 kleine veldjes (ongeveer 15 bij 10 passen) met aan elke kant een klein goal. Per veldje één ouder.',
+    opzet: 'Maak een paar kleine veldjes (ongeveer 15 bij 10 passen) met aan elke kant een klein goal, voor elke 4 kinderen een veldje. Te weinig goals? Maak goaltjes van twee pionnen. Per veldje één ouder.',
     verhaal: 'Nu gaan we echt voetballen! Probeer te scoren in het goal van de andere kinderen.',
-    verloop: ['Speel 2 tegen 2, zonder keepers.', 'Bal uit? De ouder rolt meteen een nieuwe bal in. Geen ingooien.', 'Is er een vijfde kind? Na elk doelpunt wisselt er iemand.', 'Hussel de teams elke 4 minuten.'],
+    verloop: ['Speel 2 tegen 2, zonder keepers.', 'Bal uit? De ouder rolt meteen een nieuwe bal in. Geen ingooien.', 'Speel 3 keer 4 minuten en hussel de teams na elke ronde.', 'Is er een vijfde kind? Na elk doelpunt wisselt er iemand.'],
     makkelijker: 'Grotere goals, of 3 tegen 2.',
     moeilijker: 'Kleinere goals.',
-    tip: 'De KNVB adviseert 2 tegen 2 voor deze leeftijd: veel balcontact en veel scoren.',
+    tip: 'Dit is de aanbevolen vorm van de KNVB voor deze leeftijd. Geen stand bijhouden, geen competitie.',
     schets: [['z',4,6,192,108],['g',10,60,'r'],['g',190,60,'l'],['k',62,44,0],['k',72,82,0],['k',128,50,1],['k',140,78,1],['b',68,48],['k',100,112,1],['p',26,108],['a',68,48,110,40],['s',140,78,184,64]]
   },
   {
-    id: 'viergoals', naam: 'Vier goaltjes', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 6 kinderen',
+    id: 'viergoals', naam: 'Vier goaltjes', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 4–5 kinderen',
     materiaal: ['4 kleine goals per veldje', 'hesjes'],
     opzet: 'Maak een veldje met aan elke kant twee kleine goals, in de hoeken.',
     verhaal: 'Elk team mag in twee goals scoren. Kijk goed waar het goal leeg is!',
-    verloop: ['Speel 3 tegen 3, zonder keepers.', 'Scoren mag in allebei de goals aan de overkant.', 'De ouder rolt meteen een nieuwe bal in.', 'Hussel de teams elke 4 minuten.'],
-    makkelijker: 'Maak er 2 tegen 2 van.',
-    moeilijker: 'Maak het veldje kleiner.',
-    tip: 'Met twee goals zien kinderen vanzelf dat je ook naar de andere kant kunt dribbelen.',
-    schets: [['z',4,6,192,108],['g',10,28,'r'],['g',10,92,'r'],['g',190,28,'l'],['g',190,92,'l'],['k',50,40,0],['k',62,76,0],['k',88,56,0],['k',116,48,1],['k',142,34,1],['k',136,86,1],['b',94,60],['a',94,60,150,84],['s',150,84,184,90]]
+    verloop: ['Speel 2 tegen 2, zonder keepers.', 'Scoren mag in allebei de goals aan de overkant.', 'De ouder rolt meteen een nieuwe bal in.', 'Hussel de teams elke 4 minuten.'],
+    makkelijker: 'Maak het veldje kleiner.',
+    moeilijker: 'Maak het veldje groter.',
+    tip: 'Met twee goals zien kinderen vanzelf dat je ook naar een andere kant kunt dribbelen.',
+    schets: [['z',4,6,192,108],['g',10,28,'r'],['g',10,92,'r'],['g',190,28,'l'],['g',190,92,'l'],['k',62,40,0],['k',70,80,0],['k',132,46,1],['k',140,84,1],['b',94,60],['a',94,60,150,84],['s',150,84,184,90]]
   },
   {
-    id: 'ballenregen', naam: 'Ballenregen', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 4–6 kinderen',
+    id: 'ballenregen', naam: 'Ballenregen', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 4–5 kinderen',
     materiaal: ['2 kleine goals per veldje', 'hesjes', 'stapel ballen'],
     opzet: 'Een gewoon veldje met twee kleine goals. De ouder staat aan de zijkant met een stapel ballen.',
     verhaal: 'Het regent ballen! Na elk doelpunt valt er meteen een nieuwe bal uit de lucht.',
-    verloop: ['Speel 2 tegen 2 of 3 tegen 3.', 'Na elk doelpunt, of als de bal uit is, gooit de ouder meteen een nieuwe bal in het veld.', 'Soms gooit de ouder twee ballen tegelijk. Dan wordt het chaos, en dat is goed.'],
+    verloop: ['Speel 2 tegen 2.', 'Na elk doelpunt, of als de bal uit is, gooit de ouder meteen een nieuwe bal in het veld.', 'Soms gooit de ouder twee ballen tegelijk. Dan wordt het chaos, en dat is goed.'],
     makkelijker: 'Gooi de nieuwe bal naar het team dat nog niet scoorde.',
     moeilijker: 'Gooi de nieuwe bal in een hoek, zodat ze moeten rennen.',
     tip: 'Leg de gescoorde ballen achter het goal. Aan het eind tellen: wat een regen!',
     schets: [['z',4,6,192,96],['g',10,54,'r'],['g',190,54,'l'],['k',60,40,0],['k',74,74,0],['k',122,40,1],['k',136,72,1],['b',82,56],['p',100,111],['b',88,110],['b',112,110],['s',100,104,100,66],['t',150,112,'nieuwe bal!']]
   },
   {
-    id: 'grotegoals', naam: 'Wedstrijd op grote goals', type: 'partij', skill: 'wedstrijd', duur: 12, groep: '8 kinderen, rest op 2 tegen 2',
-    materiaal: ['2 grote goals', 'kleine goals voor de rest', 'hesjes'],
-    opzet: 'Speel op een half veld met de twee grote goals. Twee teams van 4. De andere kinderen spelen ernaast 2 tegen 2 op kleine goals.',
-    verhaal: 'Net als de profs: een echte wedstrijd op grote goals!',
-    verloop: ['Speel 4 tegen 4, zonder keepers (of met een ouder die heel slecht keept).', 'De ouders rollen meteen nieuwe ballen in.', 'Wissel na 6 minuten met de kinderen op de kleine veldjes.'],
-    makkelijker: 'Maak het veld kleiner.',
-    moeilijker: 'Elk team een keeper, die na elke goal wisselt.',
-    tip: 'Met 4 tegen 4 krijgt niet elk kind vaak de bal. Wissel daarom halverwege met de 2-tegen-2-veldjes.',
-    schets: [['z',4,6,192,108],['G',8,60,'r'],['G',192,60,'l'],['k',40,36,0],['k',54,86,0],['k',80,56,0],['k',96,28,0],['k',110,82,1],['k',124,46,1],['k',150,66,1],['k',160,30,1],['b',86,60],['a',86,60,118,62]]
+    id: '2tegen1', naam: 'Kinderen tegen de ouder', type: 'partij', skill: 'wedstrijd', duur: 12, groep: 'Per veldje 4–5 kinderen',
+    materiaal: ['2 kleine goals per veldje', 'hesjes'],
+    opzet: 'Een veldje met twee kleine goals. Twee kinderen spelen samen tegen de ouder. De andere kinderen staan achter het veld.',
+    verhaal: 'De ouder is de grote beer en jullie zijn twee slimme vossen. Kunnen jullie de beer te slim af zijn?',
+    verloop: ['De twee kinderen proberen te scoren, de ouder verdedigt heel zwakjes.', 'Elk doelpunt: de kinderen wisselen met twee anderen.', 'Zo wacht niemand lang.', 'Laat de ouder af en toe "verslagen" neervallen.'],
+    makkelijker: 'De ouder loopt maar half mee.',
+    moeilijker: 'De ouder gaat gewoon serieuzer spelen.',
+    tip: 'Tel de doelpunten niet. Het gaat om scoren, niet om winnen.',
+    schets: [['z',4,6,192,108],['g',10,60,'r'],['g',190,60,'l'],['k',70,46,0],['k',78,82,0],['p',136,60],['b',76,52],['a',76,52,112,58],['k',60,108,1],['k',100,108,1],['k',140,108,1]]
   },
 
   // Afsluiters: allemaal samen, ±3 min
@@ -732,6 +850,17 @@ const GAMES = [
     schets: [['G',192,60,'l'],['p',50,40],['p',80,40],['p',110,40],['p',140,40],['p',50,80],['p',80,80],['p',110,80],['p',140,80],['kb',18,60],['k',14,90,1],['k',14,30,1],['a',30,60,182,60]]
   },
   {
+    id: 'rommelkamer', naam: 'Rommelkamer', type: 'afsluiter', skill: 'schieten', duur: 3, groep: 'Allemaal samen',
+    materiaal: ['alle ballen', '6 pionnen'],
+    opzet: 'Maak met een rij pionnen een middenlijn. Kinderen aan de ene kant, ouders aan de andere kant. Verdeel alle ballen over beide helften.',
+    verhaal: 'Jullie kamer is een rommeltje! Schop alle ballen naar de kamer van de ouders. Maar de ouders schoppen ze terug…',
+    verloop: ['Op "Opruimen!" schiet iedereen ballen naar de andere helft.', 'De ouders schieten rustig terug (en missen vaak).', 'Na een minuut: "Stop!" Samen tellen welke kamer het rommeligst is.', 'Speel 3 rondjes.'],
+    makkelijker: 'Ouders gooien met de hand terug, en langzaam.',
+    moeilijker: 'Alleen schieten met de voet die je minder gebruikt.',
+    tip: 'Laat de kinderen altijd net winnen.',
+    schets: [['cl',100,12,100,108,6],['k',40,32],['k',58,62],['k',36,92],['k',72,40],['p',150,36],['p',146,82],['b',62,26],['b',80,74],['b',132,52],['b',162,96],['b',122,20],['s',64,64,138,60],['s',140,84,74,92]]
+  },
+  {
     id: 'opruimen', naam: 'Opruimrace', type: 'afsluiter', skill: 'samen', duur: 3, groep: 'Allemaal samen',
     materiaal: ['alle pionnen en ballen', 'ballentas'],
     opzet: 'Na de training liggen er overal pionnen en ballen. Een ouder staat bij de ballentas.',
@@ -744,13 +873,14 @@ const GAMES = [
   }
 ];
 
-const SKILLS = { dribbelen: 'Dribbelen', schieten: 'Schieten', passen: 'Passen en stoppen', balgevoel: 'Balgevoel', wedstrijd: 'Partijtje', samen: 'Samen' };
-const TYPES = { warmup: 'Warming-up', station: 'Station', partij: 'Partijtje', afsluiter: 'Afsluiter' };
+const SKILLS = { tik: 'Rennen en tikken', beweeg: 'Springen en bewegen', dribbelen: 'Dribbelen', schieten: 'Schieten', handen: 'Met de handen', balgevoel: 'Balgevoel', wedstrijd: 'Partijtje', samen: 'Samen' };
+const TYPES = { warmup: 'Tikspel', beweeg: 'Bewegen', station: 'Station', partij: 'Partijtje', afsluiter: 'Afsluiter' };
 const SLOTS = [
-  { key: 'warmup', type: 'warmup', label: 'Warming-up' },
+  { key: 'warmup', type: 'warmup', label: 'Tikspel' },
+  { key: 'beweeg', type: 'beweeg', label: 'Bewegen' },
   { key: 's1', type: 'station', skill: 'dribbelen', label: 'Station A', letter: 'A' },
   { key: 's2', type: 'station', skill: 'schieten', label: 'Station B', letter: 'B' },
-  { key: 's3', type: 'station', skill: 'passen', label: 'Station C', letter: 'C' },
+  { key: 's3', type: 'station', skill: 'handen', label: 'Station C', letter: 'C' },
   { key: 's4', type: 'station', skill: 'balgevoel', label: 'Station D', letter: 'D' },
   { key: 'partij', type: 'partij', label: 'Partijtjes' },
   { key: 'afsluiter', type: 'afsluiter', label: 'Afsluiter' }
@@ -869,7 +999,7 @@ const state = {
   tab: 'training',
   filter: 'all',
   favs: new Set(store.get('favs', [])),
-  saved: store.get('saved', [])
+  saved: store.get('saved', []).filter(t => t && t.slots && SLOTS.every(s => byId[t.slots[s.key]] && byId[t.slots[s.key]].type === s.type))
 };
 function validSlots(slots) {
   return slots && SLOTS.every(s => byId[slots[s.key]] && byId[slots[s.key]].type === s.type);
@@ -909,7 +1039,8 @@ function persist() { store.set('current', { slots: state.slots, locks: state.loc
 function schedule() {
   return [
     { kind: 'intro', min: 5, title: 'Binnenkomst' },
-    { kind: 'game', slot: 'warmup', min: 10, title: 'Warming-up' },
+    { kind: 'game', slot: 'warmup', min: 5, title: 'Tikspel' },
+    { kind: 'game', slot: 'beweeg', min: 5, title: 'Bewegen' },
     { kind: 'round', round: 0, min: 6, title: 'Stations · ronde 1' },
     { kind: 'switch', round: 1, min: 1, title: 'Wisselen' },
     { kind: 'round', round: 1, min: 6, title: 'Stations · ronde 2' },
@@ -929,6 +1060,7 @@ function keyTimes() {
   return {
     intro: 0,
     warmup: at(b => b.slot === 'warmup'),
+    beweeg: at(b => b.slot === 'beweeg'),
     stations: at(b => b.kind === 'round'),
     rounds: sc.filter(b => b.kind === 'round').map(b => b.at),
     partij: at(b => b.slot === 'partij'),
@@ -995,8 +1127,15 @@ function renderTraining() {
       <li class="tl">
         <div class="tl-time">${clock(st, t.warmup)}</div>
         <div>
-          <div class="tl-head"><h2>Warming-up</h2><span class="meta">10 min · allemaal samen</span></div>
+          <div class="tl-head"><h2>Tikspel</h2><span class="meta">5 min · allemaal samen · zonder bal</span></div>
           ${slotCard('warmup')}
+        </div>
+      </li>
+      <li class="tl">
+        <div class="tl-time">${clock(st, t.beweeg)}</div>
+        <div>
+          <div class="tl-head"><h2>Bewegen</h2><span class="meta">5 min · allemaal samen · rennen, springen, bal in de handen</span></div>
+          ${slotCard('beweeg')}
         </div>
       </li>
       <li class="tl">
@@ -1037,7 +1176,7 @@ function renderTraining() {
 function renderCatalog() {
   const f = state.filter;
   const count = k => k === 'all' ? GAMES.length : k === 'fav' ? GAMES.filter(g => state.favs.has(g.id)).length : GAMES.filter(g => g.type === k).length;
-  const chips = [['all', 'Alles'], ['warmup', 'Warming-up'], ['station', 'Stations'], ['partij', 'Partijtjes'], ['afsluiter', 'Afsluiters'], ['fav', 'Favorieten']]
+  const chips = [['all', 'Alles'], ['warmup', 'Tikspellen'], ['beweeg', 'Bewegen'], ['station', 'Stations'], ['partij', 'Partijtjes'], ['afsluiter', 'Afsluiters'], ['fav', 'Favorieten']]
     .map(([k, l]) => `<button class="chip" data-action="filter" data-filter="${k}" aria-pressed="${f === k}">${l}<span class="n">${count(k)}</span></button>`).join('');
   const list = GAMES.filter(g => f === 'all' || (f === 'fav' ? state.favs.has(g.id) : g.type === f));
   const cards = list.map(g => `<div class="card-wrap"><article class="card">
@@ -1090,7 +1229,7 @@ function renderSaved() {
         <h2 style="font-size:19px;font-weight:800">Training van een andere ouder</h2>
         <p class="note">Plak het bericht uit de app-groep, of alleen de code. De training komt dan op het tabblad Training.</p>
         <label for="code-input" class="eyebrow">Bericht of code</label>
-        <textarea id="code-input" placeholder="piraten.slalom.reus.tunnel.piano.2tegen2.penalty"></textarea>
+        <textarea id="code-input" placeholder="haaien.ridders.slalom.reus.stuiter.piano.2tegen2.penalty"></textarea>
         <p class="form-msg" id="code-msg" role="status"></p>
         <button class="btn primary" type="submit">${I.play}Training laden</button>
       </form>
@@ -1163,7 +1302,8 @@ function trainingText(slots, start) {
     `Kaboutertraining · start ${start}`,
     '',
     `${clock(start, t.intro)} Binnenkomst: vrij spelen, ouders zetten de stations klaar`,
-    `${clock(start, t.warmup)} Warming-up: ${n('warmup')}`,
+    `${clock(start, t.warmup)} Tikspel: ${n('warmup')}`,
+    `${clock(start, t.beweeg)} Bewegen: ${n('beweeg')}`,
     `${clock(start, t.stations)} Stations (4 groepjes, 6 min per station, drinkpauze na ronde 2)`,
     ...STATIONS.map(k => `   ${SLOT[k].letter}. ${n(k)} (${SKILLS[byId[slots[k]].skill].toLowerCase()})`),
     `${clock(start, t.partij)} Partijtjes: ${n('partij')}`,
@@ -1174,8 +1314,8 @@ function trainingText(slots, start) {
   ].join('\n');
 }
 function parseCode(text) {
-  const m = String(text || '').toLowerCase().match(/[a-z0-9]+(?:\.[a-z0-9]+){6}/);
-  if (!m) return { error: 'Geen code gevonden. Een code bestaat uit 7 spelnamen met punten ertussen.' };
+  const m = String(text || '').toLowerCase().match(new RegExp('[a-z0-9]+(?:\\.[a-z0-9]+){' + (SLOTS.length - 1) + '}'));
+  if (!m) return { error: `Geen code gevonden. Een code bestaat uit ${SLOTS.length} spelnamen met punten ertussen.` };
   const ids = m[0].split('.');
   const slots = {};
   for (let i = 0; i < SLOTS.length; i++) {
